@@ -1,0 +1,1 @@
+RESULT status=stalled obj=0.655231605757 iters=3367 rp=7.882e-08 nrow=756 ncol=1441 nnz=4314 t_build=0.0003 t_solve=16.0290 t_total=16.0294 hwm_read_kb=6892 hwm_build_kb=7036 hwm_load_kb=-1 hwm_end_kb=7436 rel_viol=7.88e-08 repairs=658646098 rmax=396

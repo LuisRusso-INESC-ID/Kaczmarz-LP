@@ -1,0 +1,1 @@
+RESULT status=time_limit obj=295958.930777 iters=356862000 rp=4.980e-04 nrow=510 ncol=2240 nnz=4470 t_build=0.0008 t_solve=60.0005 t_total=60.0018 hwm_read_kb=7008 hwm_build_kb=7236 hwm_load_kb=-1 hwm_end_kb=7636 lower_bound=318756.519685 rel_gap=3.71e-02 levels=1603

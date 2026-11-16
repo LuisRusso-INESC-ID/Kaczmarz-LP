@@ -1,0 +1,1 @@
+RESULT status=optimal obj=297584 iters=11776 rp=2.728e-10 nrow=510 ncol=2240 nnz=4470 t_build=0.0006 t_solve=0.2220 t_total=0.2228 hwm_read_kb=6924 hwm_build_kb=7152 hwm_load_kb=-1 hwm_end_kb=7472 rel_rp=4.31e-10 rel_rd=0.00e+00 rel_gap=7.73e-15 restarts=27

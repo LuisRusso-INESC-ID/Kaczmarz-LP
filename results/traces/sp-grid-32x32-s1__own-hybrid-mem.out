@@ -1,0 +1,1 @@
+RESULT status=time_limit obj=15640257.4859 iters=161500 rp=9.998e-08 nrow=1023 ncol=3968 nnz=7932 t_build=0.0009 t_solve=60.0003 t_total=60.0015 hwm_read_kb=6936 hwm_build_kb=7204 hwm_load_kb=-1 hwm_end_kb=7544 rel_viol=1.00e-07 repairs=353233945 rmax=64

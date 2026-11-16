@@ -1,0 +1,1 @@
+RESULT status=optimal obj=297584.008543 iters=16469750 rp=8.055e-04 nrow=510 ncol=2240 nnz=4470 t_build=0.0005 t_solve=1.1172 t_total=1.1181 hwm_read_kb=6996 hwm_build_kb=7224 hwm_load_kb=-1 hwm_end_kb=7688 lower_bound=297584.015727 rel_gap=1.21e-08 levels=184

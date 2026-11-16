@@ -1,0 +1,1 @@
+RESULT status=time_limit obj=0.661628065204 iters=64017288 rp=6.997e-04 nrow=756 ncol=1441 nnz=4314 t_build=0.0003 t_solve=60.0016 t_total=60.0023 hwm_read_kb=6716 hwm_build_kb=6872 hwm_load_kb=-1 hwm_end_kb=7236 lower_bound=0.780067033248 rel_gap=4.85e-02 levels=626
