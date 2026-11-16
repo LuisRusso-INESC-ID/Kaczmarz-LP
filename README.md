@@ -58,7 +58,7 @@ OR-Tools is detected automatically if `$(DEPS)/ortools/include/ortools/pdlp/...`
   proximal Hildreth row action.
 
 All solvers run single-threaded with relative tolerance 1e-6 (each solver's own definition);
-answers are then checked against the exact combinatorial optimum (relative error ≤ 1e-4 counts
+answers are then checked against the exact combinatorial optimum (relative error ≤ 1e-3 counts
 as solved).
 
 ## Instance families
