@@ -5,8 +5,8 @@
 # ~10 MB resident) do not inflate the memory baseline of the other backends:
 #   bin/lpsolve      HiGHS, Clp, GLPK and the own prototypes
 #   bin/lpsolve-ort  OR-Tools GLOP and PDLP (and the own prototypes)
-DEPS   ?= /home/claude/deps/install
-LEMON  ?= /home/claude/deps/lemon/include
+DEPS   ?= $(HOME)/lpdeps/install
+LEMON  ?= $(HOME)/lpdeps/src/lemon/include
 CXX    ?= g++
 CXXFLAGS ?= -O2 -std=c++17 -DNDEBUG
 ORT    = $(DEPS)/ortools

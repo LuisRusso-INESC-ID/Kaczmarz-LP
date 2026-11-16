@@ -32,6 +32,9 @@ builds all of them. Then
 make DEPS=/path/to/install LEMON=/path/to/lemon/include
 ```
 
+The defaults are `DEPS=$HOME/lpdeps/install` and `LEMON=$HOME/lpdeps/src/lemon/include`, matching
+`scripts/build_deps.sh ~/lpdeps/install ~/lpdeps/src`, so a plain `make` works after that.
+
 OR-Tools is detected automatically if `$(DEPS)/ortools/include/ortools/pdlp/...` exists.
 
 ## LP formulations
