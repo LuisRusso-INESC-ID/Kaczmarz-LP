@@ -22,8 +22,8 @@ clone google/or-tools
 # HiGHS
 cmake -S HiGHS -B HiGHS/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="$PREFIX"
 cmake --build HiGHS/build -j"$JOBS" && cmake --install HiGHS/build
-# GLPK
-(cd glpk && ./configure --prefix="$PREFIX" --disable-static CFLAGS=-O2 && make -j"$JOBS" && make install)
+# GLPK (-std=gnu17: GCC 15+ defaults to C23, where GLPK's minisat typedef of bool fails)
+(cd glpk && ./configure --prefix="$PREFIX" --disable-static CFLAGS="-O2 -std=gnu17" && make -j"$JOBS" && make install)
 # CoinUtils + Clp (no BLAS/LAPACK, as in the pilot)
 (cd CoinUtils && ./configure --prefix="$PREFIX" --disable-static --without-lapack --without-blas CXXFLAGS=-O2 && make -j"$JOBS" && make install)
 (cd Clp && PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" ./configure --prefix="$PREFIX" --disable-static --without-lapack --without-blas CXXFLAGS=-O2 && make -j"$JOBS" && make install)
