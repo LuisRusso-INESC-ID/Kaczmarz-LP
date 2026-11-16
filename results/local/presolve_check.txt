@@ -1,0 +1,17 @@
+# Presolve on vs off (-nopre), local rerun 2026-11-16. Rows 1-10: mf-vision-512x512 (m=1.31M); rows 11-16: sp-grid-128x128 (m=65k). hwm in KB. tl=120 s.
+highs-dual             status=optimal t_solve=31.1393 hwm_load_kb=141296 hwm_end_kb=1036768 
+highs-dual-nopre       status=optimal t_solve=59.4873 hwm_load_kb=141508 hwm_end_kb=770080 
+highs-ipx-cross        status=optimal t_solve=29.9381 hwm_load_kb=140020 hwm_end_kb=930544 
+highs-ipx-cross-nopre  status=optimal t_solve=40.6728 hwm_load_kb=141416 hwm_end_kb=732224 
+highs-pdlp             status=optimal t_solve=37.6154 hwm_load_kb=141192 hwm_end_kb=716836 
+highs-pdlp-nopre       status=optimal t_solve=37.0438 hwm_load_kb=141096 hwm_end_kb=635904 
+clp-dual               status=optimal t_solve=67.1435 hwm_load_kb=226636 hwm_end_kb=552552 
+clp-dual-nopre         status=optimal t_solve=123.9573 hwm_load_kb=226880 hwm_end_kb=454340 
+clp-barrier            status=optimal t_solve=24.6857 hwm_load_kb=225008 hwm_end_kb=672448 
+clp-barrier-nopre      status=optimal t_solve=22.9178 hwm_load_kb=228796 hwm_end_kb=583540 
+highs-dual             status=optimal t_solve=20.2517 hwm_load_kb=14628 hwm_end_kb=78348 
+highs-dual-nopre       status=optimal t_solve=20.6354 hwm_load_kb=14644 hwm_end_kb=59540 
+highs-ipx-cross        status=optimal t_solve=2.8382 hwm_load_kb=14612 hwm_end_kb=63768 
+highs-ipx-cross-nopre  status=optimal t_solve=2.7997 hwm_load_kb=14584 hwm_end_kb=48860 
+highs-pdlp             status=time_limit t_solve=119.4239 hwm_load_kb=14636 hwm_end_kb=47484 
+highs-pdlp-nopre       status=time_limit t_solve=119.9751 hwm_load_kb=14612 hwm_end_kb=42344 
