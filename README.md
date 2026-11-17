@@ -67,8 +67,11 @@ Shortest path: `sp-grid` (4-neighbour grid), `sp-road` (jittered grid with dropp
 Euclidean lengths), `sp-rand` (random digraph, out-degree 4 + Hamiltonian cycle).
 Max flow: `mf-rmf` (Goldfarb–Grigoriadis RMF), `mf-rlg` (Washington random level graph),
 `mf-vision` (grid with terminal arcs). Multicommodity: `mcf-grid`, `mcf-rand`.
-The real DIMACS road networks can be added with `scripts/fetch_dimacs_roads.sh`; the readers
-accept the DIMACS formats directly.
+Real road networks: the 9th DIMACS Challenge site is offline, so `scripts/fetch_zenodo_roads.sh`
+fetches the challenge's USA travel-time graphs (largest connected component) from Zenodo record
+10.5281/zenodo.18026780 and converts them with `scripts/convert_roads.py`: `USA-road-t.NW`
+(2.5M arcs), BFS regions of it with 40k/160k/640k arcs, and with `ALL=1` the full USA graph (58M
+arcs). The readers accept the DIMACS formats directly.
 
 ## Running
 

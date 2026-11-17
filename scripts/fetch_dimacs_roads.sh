@@ -2,7 +2,7 @@
 # Download 9th DIMACS Challenge road networks (distance graphs) into data/.
 # usage: scripts/fetch_dimacs_roads.sh [NY BAY COL FLA ...]   (default: NY BAY COL)
 # Override the source with DIMACS_URL=... (directory holding USA-road-d.XXX.gr.gz).
-# NOTE (2026-11-16): the challenge site's data paths currently return 404; a mirror is needed.
+# NOTE (2026-11-16): the challenge site returns 404; use scripts/fetch_zenodo_roads.sh (travel-time graphs).
 set -e
 URL=${DIMACS_URL:-https://www.diag.uniroma1.it/challenge9/data/USA-road-d}
 cd "$(dirname "$0")/../data"
