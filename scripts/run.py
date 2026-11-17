@@ -2,7 +2,9 @@
 """Benchmark driver: generate instances, run classical codes and LP backends, one process
 per solve, recording wall time and peak RSS (ru_maxrss from wait4).
 
-usage: run.py [--plan pilot|small] [--tl SECONDS] [--out results/pilot.jsonl] [--only FAMILY]
+usage: run.py [--plan pilot|small|roads|roads-usa] [--tl SECONDS] [--seed S] [--out results/pilot.jsonl]
+              [--only FAMILY] [--methods M1,M2,...]
+The road plans read data/USA-road-t.*.gr (scripts/fetch_zenodo_roads.sh); --seed applies to generated families.
 Re-running skips (instance, method) pairs already present in the output file.
 """
 import argparse, json, os, resource, subprocess, sys, time, signal, shlex
@@ -33,6 +35,9 @@ PLANS = {
         "mcf-grid": [(10, 10, 4, 5), (15, 15, 6, 5), (20, 20, 8, 5), (30, 30, 12, 5), (40, 40, 16, 5)],
         "mcf-rand": [(200, 3, 4, 5), (500, 3, 6, 5), (1000, 3, 8, 5), (2500, 3, 12, 5), (5000, 3, 16, 5)],
     },
+    # 9th DIMACS USA travel-time road graphs (largest connected component), BFS regions of NW
+    "roads": {"sp-roadnet": [("NW-40k",), ("NW-160k",), ("NW-640k",), ("NW",)]},
+    "roads-usa": {"sp-roadnet": [("USA",)]},
 }
 EXT = {"sp": "gr", "mf": "max", "mcf": "mcf"}
 
@@ -68,6 +73,12 @@ def available_lp_backends():
 
 
 def instance_path(fam, params, seed=1):
+    if fam == "sp-roadnet":   # fixed files, not generated
+        name = "USA-road-t." + params[0]
+        path = os.path.join(DATA, name + ".gr")
+        if not os.path.exists(path):
+            sys.exit(f"missing {path}: run scripts/fetch_zenodo_roads.sh")
+        return name, path
     name = f"{fam}-" + "x".join(map(str, params)) + f"-s{seed}"
     ext = EXT[fam.split("-")[0]]
     path = os.path.join(DATA, f"{name}.{ext}")
@@ -114,6 +125,7 @@ def main():
     ap.add_argument("--plan", default="small")
     ap.add_argument("--tl", type=float, default=120)
     ap.add_argument("--tol", type=float, default=1e-6)
+    ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--out", default=None)
     ap.add_argument("--only", default=None, help="comma-separated families")
     ap.add_argument("--methods", default=None, help="comma-separated methods to restrict to")
@@ -134,7 +146,7 @@ def main():
             kind = fam.split("-")[0]
             failed = set()   # methods that failed/timed out on a smaller size of this family
             for si, params in enumerate(plan[fam]):
-                name, path = instance_path(fam, params)
+                name, path = instance_path(fam, params, a.seed)
                 methods = [("classic", m) for m in CLASSIC[kind]] + [("lp", b) for b in lp_backs]
                 for typ, m in methods:
                     mname = m if typ == "lp" else "classic:" + m
