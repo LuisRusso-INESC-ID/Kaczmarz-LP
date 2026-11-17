@@ -1,0 +1,27 @@
+LP backends: build-only highs-dual highs-primal highs-ipx-cross highs-ipx highs-pdlp clp-dual clp-primal clp-barrier glpk-primal glpk-dual glpk-ipt ortools-glop ortools-glop-primal ortools-pdlp own-pdhg own-prow own-skm
+USA-road-t.NW-40k            classic:dijkstra       ok               t=    0.002 hwm=     4.9MB obj=23194049966.0
+USA-road-t.NW-40k            classic:lemon-dijkstra ok               t=    0.001 hwm=     6.0MB obj=23194049966.0
+USA-road-t.NW-40k            classic:lemon-ns       ok               t=    0.044 hwm=    10.4MB obj=23194049966.0
+USA-road-t.NW-40k            highs-pdlp             optimal          t=  105.020 hwm=    32.1MB obj=23194049193.2
+USA-road-t.NW-40k            clp-primal             optimal          t=    0.393 hwm=    30.0MB obj=23194049966.0
+USA-road-t.NW-40k            clp-barrier            optimal          t=    0.288 hwm=    27.5MB obj=23194049966.0
+USA-road-t.NW-40k            ortools-pdlp           optimal          t=   83.066 hwm=    26.2MB obj=23193681177.6
+USA-road-t.NW-40k            own-pdhg               optimal          t=  206.189 hwm=    16.0MB obj=23194049889.3
+USA-road-t.NW-160k           classic:dijkstra       ok               t=    0.008 hwm=     7.8MB obj=122361930857.0
+USA-road-t.NW-160k           classic:lemon-dijkstra ok               t=    0.006 hwm=    11.9MB obj=122361930857.0
+USA-road-t.NW-160k           classic:lemon-ns       ok               t=    0.506 hwm=    29.7MB obj=122361930857.0
+USA-road-t.NW-160k           highs-pdlp             time_limit       t=  600.114 hwm=    98.2MB obj=0.0
+USA-road-t.NW-160k           clp-primal             optimal          t=    3.319 hwm=    89.8MB obj=122361930857.0
+USA-road-t.NW-160k           clp-barrier            optimal          t=    1.512 hwm=    81.1MB obj=122361930857.0
+USA-road-t.NW-160k           ortools-pdlp           time_limit       t=  600.033 hwm=    54.9MB obj=102295984610.0
+USA-road-t.NW-160k           own-pdhg               time_limit       t=  600.042 hwm=    41.7MB obj=136806378177.0
+USA-road-t.NW-640k           classic:dijkstra       ok               t=    0.036 hwm=    19.3MB obj=626505274154.0
+USA-road-t.NW-640k           classic:lemon-dijkstra ok               t=    0.028 hwm=    36.9MB obj=626505274154.0
+USA-road-t.NW-640k           classic:lemon-ns       ok               t=    4.683 hwm=   105.6MB obj=626505274154.0
+USA-road-t.NW-640k           clp-primal             optimal          t=   45.130 hwm=   340.2MB obj=626505274154.0
+USA-road-t.NW-640k           clp-barrier            optimal          t=    9.090 hwm=   305.5MB obj=626505274154.0
+USA-road-t.NW                classic:dijkstra       ok               t=    0.154 hwm=    65.0MB obj=6836714675606.0
+USA-road-t.NW                classic:lemon-dijkstra ok               t=    0.133 hwm=   132.8MB obj=6836714675606.0
+USA-road-t.NW                classic:lemon-ns       ok               t=   53.900 hwm=   413.8MB obj=6836714675606.0
+USA-road-t.NW                clp-primal             optimal          t=  547.069 hwm=  1142.8MB obj=6836714675610.0
+USA-road-t.NW                clp-barrier            optimal          t=   45.186 hwm=  1167.3MB obj=6836714675600.0

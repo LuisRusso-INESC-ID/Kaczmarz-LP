@@ -1,0 +1,4 @@
+LP backends: build-only highs-dual highs-primal highs-ipx-cross highs-ipx highs-pdlp clp-dual clp-primal clp-barrier glpk-primal glpk-dual glpk-ipt ortools-glop ortools-glop-primal ortools-pdlp own-pdhg own-prow own-skm
+USA-road-t.USA               classic:dijkstra       ok               t=    4.766 hwm=  1379.3MB obj=414748707927625.0
+USA-road-t.USA               classic:lemon-dijkstra ok               t=    4.762 hwm=  2845.3MB obj=414748707927625.0
+USA-road-t.USA               classic:lemon-ns       crash(rc=-6)     t=      nan hwm=     0.0MB obj=
