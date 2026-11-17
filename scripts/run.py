@@ -5,6 +5,7 @@ per solve, recording wall time and peak RSS (ru_maxrss from wait4).
 usage: run.py [--plan pilot|small|roads|roads-usa] [--tl SECONDS] [--seed S] [--out results/pilot.jsonl]
               [--only FAMILY] [--methods M1,M2,...]
 The road plans read data/USA-road-t.*.gr (scripts/fetch_zenodo_roads.sh); --seed applies to generated families.
+Set LPBENCH_CPU=k to pin every solve to CPU k (choose a fixed-frequency performance core).
 Re-running skips (instance, method) pairs already present in the output file.
 """
 import argparse, json, os, resource, subprocess, sys, time, signal, shlex
@@ -168,6 +169,8 @@ def main():
                     out, err, meta = measured(cmd, a.tl * 1.5 + 30)
                     res = parse_result(out) or {}
                     rec = {"instance": name, "family": fam, "params": params, "method": mname, **res}
+                    if os.environ.get("LPBENCH_CPU"):
+                        rec["cpu"] = int(os.environ["LPBENCH_CPU"])
                     if meta:
                         rec["wall"] = meta["wall"]; rec["maxrss_kb"] = meta["maxrss_kb"]
                         if meta["killed"]:
