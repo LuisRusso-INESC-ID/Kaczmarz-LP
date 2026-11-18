@@ -1,9 +1,9 @@
-seed 1: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-66; LEMON NS 126-143; simplex 434-1429; interior point 507-2285; own PDHG 192-210; OR-Tools PDLP 216-322; HiGHS PDLP 554-789; prox. Hildreth 175-198
+seed 1: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-66; LEMON NS 127-143; simplex 434-1428; interior point 507-2284; own PDHG 192-210; OR-Tools PDLP 216-321; HiGHS PDLP 554-788; prox. Hildreth 175-196
    simplex/Dijkstra 19-52x, simplex/Preflow 7-22x, first-order/Dijkstra 7.1-14.0x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 105-1187x
-seed 2: own Dijkstra 23-27; LEMON Dijkstra 47-50; Preflow 58-67; LEMON NS 126-143; simplex 432-1428; interior point 507-2262; own PDHG 187-219; OR-Tools PDLP 217-312; HiGHS PDLP 554-784; prox. Hildreth 159-190
-   simplex/Dijkstra 18-52x, simplex/Preflow 7-21x, first-order/Dijkstra 7.5-13.6x, first-order/Preflow 2.9-4.1x, fastest LP/Dijkstra time 104-1151x
-seed 3: own Dijkstra 23-28; LEMON Dijkstra 47-49; Preflow 59-67; LEMON NS 127-143; simplex 429-1508; interior point 507-2255; own PDHG 189-215; OR-Tools PDLP 218-311; HiGHS PDLP 555-791; prox. Hildreth 157-172
-   simplex/Dijkstra 18-52x, simplex/Preflow 7-23x, first-order/Dijkstra 7.2-13.5x, first-order/Preflow 3.0-4.0x, fastest LP/Dijkstra time 107-1158x
+seed 2: own Dijkstra 23-27; LEMON Dijkstra 47-50; Preflow 58-67; LEMON NS 126-143; simplex 433-1429; interior point 507-2263; own PDHG 187-220; OR-Tools PDLP 217-309; HiGHS PDLP 554-785; prox. Hildreth 161-192
+   simplex/Dijkstra 18-52x, simplex/Preflow 7-21x, first-order/Dijkstra 7.5-13.4x, first-order/Preflow 2.9-4.1x, fastest LP/Dijkstra time 104-1151x
+seed 3: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-67; LEMON NS 126-142; simplex 429-1510; interior point 507-2257; own PDHG 189-217; OR-Tools PDLP 218-308; HiGHS PDLP 555-793; prox. Hildreth 163-175
+   simplex/Dijkstra 19-52x, simplex/Preflow 7-23x, first-order/Dijkstra 7.4-13.4x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 107-1158x
 
 spread over seeds (max/min) for runs solved in all seeds with t_solve > 0.05 s; median [max]:
   classic:dijkstra       time 1.03 [1.03]   memory 1.02 [1.02]   (n=1)

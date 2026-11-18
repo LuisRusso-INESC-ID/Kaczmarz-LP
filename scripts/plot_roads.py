@@ -6,7 +6,7 @@ A run counts as solved if its objective is within 1e-3 of Dijkstra's. Points fro
 that were not solved within 60 s are drawn hollow. Net memory subtracts the empty-process baseline
 of each binary (measured as in analyze.py).
 """
-import json, os, subprocess, sys
+import json, os, statistics, subprocess, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -20,9 +20,12 @@ METHODS = [("classic:dijkstra", "Dijkstra", "k", "o"), ("classic:lemon-dijkstra"
            ("own-pdhg", "own PDHG", "C8", "P"), ("ortools-pdlp", "OR-Tools PDLP", "C6", "*")]
 
 
-def baseline(cmd):
-    o = subprocess.run(cmd, capture_output=True, text=True).stdout
-    return next((float(t.split("=")[1]) for t in o.split() if t.startswith("hwm_end_kb=")), 0.0)
+def baseline(cmd, reps=9):   # median of several empty runs, as in analyze.py
+    v = []
+    for _ in range(reps):
+        o = subprocess.run(cmd, capture_output=True, text=True).stdout
+        v += [float(t.split("=")[1]) for t in o.split() if t.startswith("hwm_end_kb=")]
+    return statistics.median(v) if v else 0.0
 
 
 probe = os.path.join(ROOT, "data", "sp-grid-3x3-s1.gr")

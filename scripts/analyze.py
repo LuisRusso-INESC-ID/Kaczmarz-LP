@@ -5,7 +5,7 @@ usage: analyze.py results/pilot.jsonl [outdir]
 Peak memory = VmHWM reported by the solving process itself (exact per exec'd process).
 'Net' memory subtracts the empty-process baseline of the same binary (libraries, runtime).
 """
-import json, os, subprocess, sys, math, collections
+import statistics, json, os, subprocess, sys, math, collections
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -29,12 +29,14 @@ for name in {r["instance"] for r in R}:
                         t = line.split(); inst_info[name] = {"n": int(t[2]), "m": int(t[3]), "k": int(t[4]) if len(t) > 4 else 0}
                         break
 
-def baseline(cmd):
-    out = subprocess.run(cmd, capture_output=True, text=True).stdout
-    for tok in out.split():
-        if tok.startswith("hwm_end_kb="):
-            return float(tok.split("=")[1])
-    return 0.0
+def baseline(cmd, reps=9):
+    # median of several empty runs: a single run varies by about 0.1 MB, which is up to ~30 B/arc
+    # on the smallest instances
+    vals = []
+    for _ in range(reps):
+        out = subprocess.run(cmd, capture_output=True, text=True).stdout
+        vals += [float(t.split("=")[1]) for t in out.split() if t.startswith("hwm_end_kb=")]
+    return statistics.median(vals) if vals else 0.0
 probe = os.path.join(ROOT, "data", "sp-grid-3x3-s1.gr")
 if not os.path.exists(probe):
     with open(probe, "w") as f:
@@ -62,6 +64,10 @@ def relerr(r):
 
 def solved(r):
     if r.get("status") not in ("optimal", "ok"):
+        return False
+    # a solve must finish within the time limit; GLPK's interior-point method has no time-limit
+    # parameter and is stopped only by memwrap.py's timeout (1.5 TL + 30 s)
+    if r.get("t_solve", 0) > TL:
         return False
     if r["method"].startswith("classic:gk"):
         return True
