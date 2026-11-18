@@ -1,5 +1,7 @@
 # lpgraph — classical graph algorithms vs. sparse LP solvers
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24335608.svg)](https://doi.org/10.5281/zenodo.24335608)
+
 Benchmark harness for the question *how much time and, above all, how much memory does a
 general sparse LP solver need on problems that have dedicated combinatorial algorithms?*
 Problems: single-source shortest paths, s–t maximum flow, maximum concurrent multicommodity
@@ -8,6 +10,9 @@ flow. Every solve runs in its own process; peak memory is the process's own `VmH
 This is the code and data for a paper in preparation (target: ACM Transactions on Mathematical
 Software). Every table and figure in the paper is regenerated from the raw results in `results/`
 by the scripts below.
+Archived on Zenodo: [10.5281/zenodo.24335608](https://doi.org/10.5281/zenodo.24335608) (all
+versions; v1.0 is [10.5281/zenodo.24335609](https://doi.org/10.5281/zenodo.24335609)). Citation
+metadata is in `CITATION.cff`.
 
 ## Layout
 
