@@ -5,6 +5,10 @@ general sparse LP solver need on problems that have dedicated combinatorial algo
 Problems: single-source shortest paths, s–t maximum flow, maximum concurrent multicommodity
 flow. Every solve runs in its own process; peak memory is the process's own `VmHWM`.
 
+This is the code and data for a paper in preparation (target: ACM Transactions on Mathematical
+Software). Every table and figure in the paper is regenerated from the raw results in `results/`
+by the scripts below.
+
 ## Layout
 
 ```
@@ -17,9 +21,18 @@ src/pdhg.h          own restarted PDHG (PDLP recipe: Ruiz + Pock–Chambolle, ad
 src/skm.h           own Sampling Kaczmarz–Motzkin on the primal–dual optimality system
 src/prowact.h       own proximal-point + Hildreth row action (Kaczmarz-style dual coordinate ascent)
 src/ortools_backend.h  GLOP and PDLP through their direct C++ APIs
-scripts/run.py      driver (plans "small" and "pilot"; resumable; JSONL output)
+scripts/build_deps.sh   clone and build HiGHS, Clp, GLPK, LEMON, OR-Tools from source
+scripts/run.py      driver (plans "small", "pilot", "roads", "roads-usa"; --seed; resumable; JSONL output)
+scripts/memwrap.py  per-solve wrapper: address-space cap, timeout, CPU pinning (LPBENCH_CPU)
 scripts/analyze.py  correctness check, tables (summary.md) and plots
-scripts/fetch_dimacs_roads.sh  real 9th-DIMACS road graphs (run on your machine)
+scripts/seed_stats.py   ranges and run-to-run spread over seeds (results/seed_stats.txt)
+scripts/paper_tables.py bytes/arc LaTeX table for the paper
+scripts/plot_roads.py   road-network figure
+scripts/plot_traces.py  convergence figure from results/traces/
+scripts/fetch_zenodo_roads.sh  9th-DIMACS USA road graphs from Zenodo, converted (convert_roads.py)
+scripts/fetch_dimacs_roads.sh  same from the original challenge site, which is offline (404);
+                    kept for reference, set DIMACS_URL to use a mirror
+scripts/exploratory/    plots for the exploratory prototypes
 ```
 
 ## Build
@@ -80,17 +93,57 @@ python3 scripts/run.py --plan pilot --tl 60 --out results/pilot.jsonl
 python3 scripts/analyze.py results/pilot.jsonl results/
 ```
 
+Runs must not overlap with other heavy work on the machine. `LPBENCH_CPU=k` pins every solver
+process to CPU `k` (recorded in each result as `cpu`); on a hybrid CPU pick a performance core,
+ideally at a fixed frequency, and keep the driver itself on other cores. The paper's runs:
+
+```
+export LPBENCH_CPU=2                      # P-core held at 3.0 GHz
+for s in 1 2 3; do
+  python3 scripts/run.py --plan pilot --tl 60 --seed $s --out results/pilot-pin-s$s.jsonl
+  python3 scripts/analyze.py results/pilot-pin-s$s.jsonl results/pin-s$s 60
+done
+python3 scripts/seed_stats.py results/pin-s1/summary.md results/pilot-pin-s1.jsonl \
+  results/pin-s2/summary.md results/pilot-pin-s2.jsonl results/pin-s3/summary.md results/pilot-pin-s3.jsonl > results/seed_stats.txt
+scripts/fetch_zenodo_roads.sh             # ALL=1 also converts the full USA graph
+python3 scripts/run.py --plan roads --tl 60 --out results/roads-local.jsonl
+python3 scripts/run.py --plan roads --tl 600 --out results/roads-600-local.jsonl \
+  --methods classic:dijkstra,classic:lemon-dijkstra,classic:lemon-ns,own-pdhg,ortools-pdlp,highs-pdlp,clp-barrier,clp-primal
+python3 scripts/run.py --plan roads-usa --tl 600 --out results/roads-usa-local.jsonl \
+  --methods classic:dijkstra,classic:lemon-dijkstra,classic:lemon-ns
+python3 scripts/plot_roads.py results/roads/roads.png \
+  results/roads-local.jsonl results/roads-600-local.jsonl results/roads-usa-local.jsonl
+python3 scripts/paper_tables.py results/pin-s1/summary.md > bpa.tex
+```
+
+`results/roads/summary.md` is `analyze.py` run on the concatenation of `roads-local.jsonl` and
+`roads-usa-local.jsonl` (named `roads-all-60.jsonl` in its header).
+A solve counts as solved only if it reports optimal, finishes within the time limit, and is within
+relative error 1e-3 of the combinatorial optimum. Net memory subtracts the median of nine
+empty-process runs of the same binary.
+
 Backends `highs-*` and `clp-*` accept a `-nopre` suffix (presolve off), e.g. `highs-dual-nopre`.
 OR-Tools backends are dispatched to `bin/lpsolve-ort` automatically.
 
-## Pilot results (in `results/`)
+## Results (in `results/`)
 
-`FINDINGS.md` (main observations and caveats), `summary.md` (all tables), `sp.png`, `mf.png`,
-`mcf.png` (memory and time vs. input size), `pilot-all.jsonl` (raw), `presolve_check.txt`.
-Pilot settings: 60 s per solve, tolerance 1e-6, one seed, single thread, 2-core VM; a method is
-skipped on larger instances of a family once it fails on a smaller one; SKM only on the two
-smallest sizes. Re-generate the tables with
-`python3 scripts/analyze.py results/pilot-all.jsonl results 60`.
+Current results, used in the paper (Intel Core Ultra 5 125H, every solve pinned to one P-core at
+a fixed 3.0 GHz, 60 s per solve, tolerance 1e-6, single thread):
+
+* `pilot-pin-s{1,2,3}.jsonl` / `.log` (raw, three seeds) and `pin-s{1,2,3}/` (summary tables and
+  plots; the paper's figures and table use seed 1); `seed_stats.txt` (ranges over seeds).
+* `roads-local`, `roads-600-local` (600 s limit, selected methods), `roads-usa-local` (full USA
+  graph, classical codes) and `roads/` (summary, `roads.png`).
+
+Earlier runs, kept for comparison and superseded by the above:
+
+* `pilot-local.jsonl` and `local/`: the same plan on the same machine, one seed, not pinned;
+  `local/NOTES.md` lists the differences from the first pilot; `local/presolve_check.txt`.
+* `FINDINGS.md`, `summary.md`, `sp.png`, `mf.png`, `mcf.png`, `pilot-all.jsonl`, `pilot.jsonl`,
+  `pilot-ort.jsonl`, `small.jsonl`, `presolve_check.txt`: the first pilot, run on a 2-core VM with one seed.
+
+In all runs a method is skipped on larger instances of a family once it fails on a smaller one,
+and SKM runs only on the two smallest sizes.
 
 ## Convergence traces
 

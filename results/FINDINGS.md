@@ -1,3 +1,8 @@
+> **Superseded.** These are the findings of the first pilot (2-core VM, one seed, solves not
+> pinned). The current results are in `pin-s{1,2,3}/`, `seed_stats.txt` and `roads/` (see the
+> README); the qualitative findings hold, and `local/NOTES.md` lists the numbers that changed.
+> The convergence-trace and exploratory sections below are still current.
+
 # Pilot findings (60 s per solve, one seed, synthetic families)
 
 Full tables: `summary.md`; plots: `sp.png`, `mf.png`, `mcf.png`; raw data: `pilot-all.jsonl`.
