@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "Kaczmarz-LP: benchmark of sparse LP solvers versus classical graph algorithms (time and peak memory)"
+type: software
+authors:
+  - family-names: Russo
+    given-names: "Luís M. S."
+    orcid: "https://orcid.org/0000-0002-1966-1808"
+    affiliation: "INESC-ID, Instituto Superior Técnico, Universidade de Lisboa"
+license: MIT
+repository-code: "https://github.com/LuisRusso-INESC-ID/Kaczmarz-LP"
+abstract: >-
+  Benchmark harness, instance generators, raw results and analysis scripts comparing general
+  sparse LP solvers (HiGHS, Clp, GLPK, OR-Tools GLOP and PDLP, and own PDHG and Kaczmarz-style
+  prototypes) with classical combinatorial codes (Dijkstra, push-relabel, network simplex,
+  Garg-Könemann) on shortest paths, maximum flow and maximum concurrent flow, measuring solve
+  time and net peak memory per arc, on synthetic families and the 9th DIMACS USA road network.
+keywords:
+  - linear programming
+  - benchmark
+  - peak memory
+  - shortest paths
+  - maximum flow
+  - multicommodity flow
+  - PDLP
+  - Kaczmarz method
