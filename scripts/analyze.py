@@ -95,13 +95,13 @@ for r in R:
     rows.append(dict(instance=r["instance"], family=r["family"], kind=kind, method=r["method"],
                      n=info.get("n"), m=info.get("m"), status=r.get("status"), solved=solved(r),
                      relerr=relerr(r), t=r.get("t_solve", float("nan")), hwm_mb=hwm / 1024,
-                     net_mb=(hwm - BASE[binkind]) / 1024, nnz=r.get("nnz")))
+                     net_mb=(hwm - r.get("base_kb", BASE[binkind])) / 1024, nnz=r.get("nnz")))
 
 # ---------------- markdown summary
 fams = sorted({x["family"] for x in rows}, key=lambda f: ("sp mf mcf".split().index(f.split("-")[0]), f))
 methods_order = sorted({x["method"] for x in rows}, key=lambda m: (not m.startswith("classic"), m))
 md = [f"# Results: {os.path.basename(res_path)}\n",
-      f"Process baselines (empty run): lpsolve {BASE['lp']/1024:.1f} MB, lpsolve-ort {BASE['lp-ort']/1024:.1f} MB, classic {BASE['classic']/1024:.1f} MB"
+      f"Process baselines (empty run, used for records without their own base_kb): lpsolve {BASE['lp']/1024:.1f} MB, lpsolve-ort {BASE['lp-ort']/1024:.1f} MB, classic {BASE['classic']/1024:.1f} MB"
       + "".join(f", flow-{fr} {BASE['flow-' + fr]/1024:.1f} MB" for fr in FLOWREF if BASE['flow-' + fr]) + ". "
       "'net' = peak RSS minus baseline. Cells: solve time (s) / net peak memory (MB); "
       "'TL' time limit, 'x' failed or wrong, '-' skipped after failing a smaller instance.\n"]
@@ -141,10 +141,10 @@ for fam in fams:
     md.append(f"| {fam} | " + " | ".join(cells) + " |")
 # correctness
 bad = [x for x in rows if x["status"] in ("optimal", "ok") and not x["solved"]]
-md.append(f"\n## Correctness\n\nReference: {REF_METHOD}. Runs reporting optimal but with relative "
-          f"objective error > {SOLVED_ERR:g}: {len(bad)}\n")
+md.append(f"\n## Correctness\n\nReference: {REF_METHOD}. Runs reporting optimal but not counted as solved "
+          f"(relative objective error > {SOLVED_ERR:g}, or solve time over the limit): {len(bad)}\n")
 for x in bad:
-    md.append(f"- {x['instance']} {x['method']}: rel. error {x['relerr']:.2e}")
+    md.append(f"- {x['instance']} {x['method']}: rel. error {x['relerr']:.2e}, t_solve {x['t']:.1f} s")
 md.append("\nLargest relative objective error among solved runs, per method: " + ", ".join(
     f"{mm} {max(x['relerr'] for x in rows if x['method']==mm and x['solved'] and x['relerr']==x['relerr']):.0e}"
     for mm in methods_order if not mm.startswith("classic:gk") and any(x['method']==mm and x['solved'] and x['relerr']==x['relerr'] for x in rows)))

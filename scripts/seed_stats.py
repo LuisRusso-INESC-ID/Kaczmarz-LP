@@ -12,11 +12,11 @@ import collections, json, math, re, statistics, sys
 SPMF = ["sp-grid", "sp-rand", "sp-road", "mf-rlg", "mf-rmf", "mf-vision"]
 SIMPLEX = ["highs-dual", "highs-primal", "clp-dual", "clp-primal", "glpk-primal", "glpk-dual",
            "ortools-glop", "ortools-glop-primal"]
-IPM = ["highs-ipx", "highs-ipx-cross", "clp-barrier", "clp-barrier-chol", "glpk-ipt"]
+IPM = ["highs-ipx", "highs-ipx-cross", "clp-barrier", "glpk-ipt"]   # default configurations
 GROUPS = [("own Dijkstra", ["classic:dijkstra"]), ("LEMON Dijkstra", ["classic:lemon-dijkstra"]),
           ("Preflow", ["classic:lemon-preflow"]), ("LEMON NS", ["classic:lemon-ns"]),
           ("HIPR", ["classic:hipr"]), ("pseudoflow", ["classic:pseudoflow"]), ("BK", ["classic:bk"]),
-          ("simplex", SIMPLEX), ("interior point", IPM), ("own PDHG", ["own-pdhg"]),
+          ("simplex", SIMPLEX), ("interior point", IPM), ("Clp barrier CHOLMOD", ["clp-barrier-chol"]), ("own PDHG", ["own-pdhg"]),
           ("OR-Tools PDLP", ["ortools-pdlp"]), ("HiGHS PDLP", ["highs-pdlp"]),
           ("prox. Hildreth", ["own-prow"])]
 

@@ -48,7 +48,7 @@ def solved(r):
 
 def net_mb(r):
     b = B["classic"] if r["method"].startswith("classic:") else B["ort"] if r["method"].startswith("ortools-") else B["lp"]
-    return (r["hwm_end_kb"] - b) / 1024
+    return (r["hwm_end_kb"] - r.get("base_kb", b)) / 1024   # per-record baseline when recorded
 
 
 fig, ax = plt.subplots(1, 2, figsize=(10, 4.2))

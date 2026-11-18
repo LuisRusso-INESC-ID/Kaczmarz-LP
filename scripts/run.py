@@ -7,6 +7,8 @@ usage: run.py [--plan pilot|small|roads|roads-usa] [--tl SECONDS] [--seed S] [--
 The road plans read data/USA-road-t.*.gr (scripts/fetch_zenodo_roads.sh); --seed applies to generated families.
 Set LPBENCH_CPU=k to pin every solve to CPU k (choose a fixed-frequency performance core).
 Re-running skips (instance, method) pairs already present in the output file.
+Each record carries base_kb, the peak RSS of an empty run of the same binary (median of 9, measured
+once at start-up), so net memory stays correct if the binary or its shared libraries change between runs.
 """
 import collections, argparse, json, os, resource, subprocess, sys, time, signal, shlex
 
@@ -121,6 +123,30 @@ def available_lp_backends():
     return out
 
 
+_BASE = {}
+def empty_run_kb(cmd):
+    """Median hwm_end_kb of 9 empty runs of the binary cmd[0] (cached per binary)."""
+    if cmd[0] not in _BASE:
+        _, probe = instance_path("sp-grid", (3, 3), 1)
+        if cmd[0].endswith("/classic"):
+            probe_cmd = [cmd[0], "dijkstra", probe]
+        elif os.path.basename(cmd[0]).startswith("flow-"):
+            pm = os.path.join(DATA, "mf-probe.max")
+            if not os.path.exists(pm):
+                with open(pm, "w") as f:
+                    f.write("p max 2 1\nn 1 s\nn 2 t\na 1 2 1\n")
+            probe_cmd = [cmd[0], pm]
+        else:
+            probe_cmd = [cmd[0], "build-only", probe]
+        v = []
+        for _ in range(9):
+            o = subprocess.run(probe_cmd, capture_output=True, text=True).stdout
+            v += [float(t.split("=")[1]) for t in o.split() if t.startswith("hwm_end_kb=")]
+        v.sort()
+        _BASE[cmd[0]] = v[len(v) // 2] if v else None
+    return _BASE[cmd[0]]
+
+
 def instance_path(fam, params, seed=1):
     if fam == "sp-roadnet":   # fixed files, not generated
         name = "USA-road-t." + params[0]
@@ -217,9 +243,12 @@ def main():
                         cmd = [os.path.join(BIN, "classic"), algo, path] + ([opt] if opt else [])
                     else:
                         cmd = [lp_binary(m), m, path, str(a.tl), str(a.tol)]
+                    base = empty_run_kb(cmd)
                     out, err, meta = measured(cmd, a.tl * 1.5 + 30)
                     res = parse_result(out) or {}
                     rec = {"instance": name, "family": fam, "params": params, "method": mname, **res}
+                    if base is not None:
+                        rec["base_kb"] = base
                     if os.environ.get("LPBENCH_CPU"):
                         rec["cpu"] = int(os.environ["LPBENCH_CPU"])
                     if meta:

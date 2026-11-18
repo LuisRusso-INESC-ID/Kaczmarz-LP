@@ -157,6 +157,17 @@ a fixed 3.0 GHz, 60 s per solve, tolerance 1e-6, single thread):
   plots; the paper's figures and table use seed 1); `seed_stats.txt` (ranges over seeds).
 * `roads-local`, `roads-600-local` (600 s limit, selected methods), `roads-usa-local` (full USA
   graph, classical codes) and `roads/` (summary, `roads.png`).
+* The GLPK records (GLPK 5.0) and `clp-barrier-chol` (Clp barrier with CHOLMOD/AMD) were added to
+  these files by a later rerun (`rerun-glpk5-chol.log`), and the HIPR, pseudoflow and BK records by
+  `flowref-pin.log`; the GLPK 4.60 records they replace are in `superseded/`.
+* Net memory subtracts `base_kb`, the peak of an empty run of the same binary with the same shared
+  libraries, which `run.py` stores in every record. Records written before it did so were annotated
+  with the baseline measured for their build: 7,744 kB for `lpsolve` with the native-ordering Clp
+  and GLPK 4.60 (the libraries kept in `~/lpdeps/superseded`), 9,192 kB for the CHOLMOD-linked
+  build with GLPK 5.0 (the GLPK and `clp-barrier-chol` records), each the median of nine runs.
+  Linking CHOLMOD and the BLAS raises the empty-process peak by 1.4 MB.
+* `depth/`: hop depth of the shortest-path trees and the aspect-ratio experiment
+  (`scripts/hop_depth.py`, `scripts/depth_experiment.sh`).
 
 Earlier runs, kept for comparison and superseded by the above:
 
