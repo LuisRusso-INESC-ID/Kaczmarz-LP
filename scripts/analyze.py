@@ -44,6 +44,15 @@ if not os.path.exists(probe):
 BASE = {"lp": baseline([os.path.join(ROOT, "bin", "lpsolve"), "build-only", probe]),
         "lp-ort": baseline([os.path.join(ROOT, "bin", "lpsolve-ort"), "build-only", probe]) if os.path.exists(os.path.join(ROOT, "bin", "lpsolve-ort")) else 0.0,
         "classic": baseline([os.path.join(ROOT, "bin", "classic"), "dijkstra", probe])}
+# reference max-flow codes: one binary each (bin/flow-<name>), baseline on a 2-node instance
+FLOWREF = ["hipr", "pseudoflow", "bk"]
+probe_max = os.path.join(ROOT, "data", "mf-probe.max")
+if not os.path.exists(probe_max):
+    with open(probe_max, "w") as f:
+        f.write("p max 2 1\nn 1 s\nn 2 t\na 1 2 1\n")
+for fr in FLOWREF:
+    b = os.path.join(ROOT, "bin", "flow-" + fr)
+    BASE["flow-" + fr] = baseline([b, probe_max]) if os.path.exists(b) else 0.0
 
 # reference objective
 REF_METHOD = {"sp": "classic:dijkstra", "mf": "classic:lemon-preflow", "mcf": "highs-ipx-cross"}
@@ -80,7 +89,8 @@ for r in R:
         continue
     info = inst_info.get(r["instance"], {})
     kind = r["family"].split("-")[0]
-    binkind = "classic" if r["method"].startswith("classic:") else ("lp-ort" if r["method"].startswith("ortools-") else "lp")
+    binkind = ("flow-" + r["method"][8:] if r["method"][8:] in FLOWREF else "classic") if r["method"].startswith("classic:") \
+        else ("lp-ort" if r["method"].startswith("ortools-") else "lp")
     hwm = r.get("hwm_end_kb", float("nan"))
     rows.append(dict(instance=r["instance"], family=r["family"], kind=kind, method=r["method"],
                      n=info.get("n"), m=info.get("m"), status=r.get("status"), solved=solved(r),
@@ -91,7 +101,8 @@ for r in R:
 fams = sorted({x["family"] for x in rows}, key=lambda f: ("sp mf mcf".split().index(f.split("-")[0]), f))
 methods_order = sorted({x["method"] for x in rows}, key=lambda m: (not m.startswith("classic"), m))
 md = [f"# Results: {os.path.basename(res_path)}\n",
-      f"Process baselines (empty run): lpsolve {BASE['lp']/1024:.1f} MB, lpsolve-ort {BASE['lp-ort']/1024:.1f} MB, classic {BASE['classic']/1024:.1f} MB. "
+      f"Process baselines (empty run): lpsolve {BASE['lp']/1024:.1f} MB, lpsolve-ort {BASE['lp-ort']/1024:.1f} MB, classic {BASE['classic']/1024:.1f} MB"
+      + "".join(f", flow-{fr} {BASE['flow-' + fr]/1024:.1f} MB" for fr in FLOWREF if BASE['flow-' + fr]) + ". "
       "'net' = peak RSS minus baseline. Cells: solve time (s) / net peak memory (MB); "
       "'TL' time limit, 'x' failed or wrong, '-' skipped after failing a smaller instance.\n"]
 for fam in fams:
@@ -145,12 +156,13 @@ open(os.path.join(outdir, "summary.md"), "w").write("\n".join(md) + "\n")
 
 # ---------------- plots
 PLOT_METHODS = ["classic:dijkstra", "classic:lemon-preflow", "classic:lemon-ns", "classic:gk:0.05",
+                "classic:hipr", "classic:pseudoflow", "classic:bk",
                 "highs-dual", "highs-ipx-cross", "highs-pdlp", "clp-dual", "clp-barrier", "glpk-primal",
                 "ortools-glop", "ortools-pdlp", "own-pdhg", "own-prow"]
 STYLE = {m: (c, mk) for m, c, mk in zip(PLOT_METHODS,
-         ["#111111", "#111111", "#666666", "#111111", "#1f77b4", "#2ca02c", "#17becf", "#ff7f0e", "#d62728",
+         ["#111111", "#111111", "#666666", "#111111", "#444444", "#888888", "#aaaaaa", "#1f77b4", "#2ca02c", "#17becf", "#ff7f0e", "#d62728",
           "#8c564b", "#9467bd", "#e377c2", "#bcbd22", "#7f7f7f"],
-         ["o", "o", "s", "o", "^", "v", "D", "<", ">", "p", "h", "*", "P", "X"])}
+         ["o", "o", "s", "o", "d", "8", "x", "^", "v", "D", "<", ">", "p", "h", "*", "P", "X"])}
 for kind in ("sp", "mf", "mcf"):
     K = [x for x in rows if x["kind"] == kind]
     if not K: continue

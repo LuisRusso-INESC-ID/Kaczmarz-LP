@@ -26,6 +26,7 @@ src/pdhg.h          own restarted PDHG (PDLP recipe: Ruiz + Pock–Chambolle, ad
 src/skm.h           own Sampling Kaczmarz–Motzkin on the primal–dual optimality system
 src/prowact.h       own proximal-point + Hildreth row action (Kaczmarz-style dual coordinate ascent)
 src/ortools_backend.h  GLOP and PDLP through their direct C++ APIs
+src/flowref/        drivers for the reference max-flow codes HIPR, pseudoflow, Boykov–Kolmogorov
 scripts/build_deps.sh   clone and build HiGHS, Clp, GLPK, LEMON, OR-Tools from source
 scripts/run.py      driver (plans "small", "pilot", "roads", "roads-usa"; --seed; resumable; JSONL output)
 scripts/memwrap.py  per-solve wrapper: address-space cap, timeout, CPU pinning (LPBENCH_CPU)
@@ -34,6 +35,9 @@ scripts/seed_stats.py   ranges and run-to-run spread over seeds (results/seed_st
 scripts/paper_tables.py bytes/arc LaTeX table for the paper
 scripts/plot_roads.py   road-network figure
 scripts/plot_traces.py  convergence figure from results/traces/
+scripts/fetch_flow_codes.sh    download HIPR 4.2, pseudoflow 3.23, BK maxflow 3.04 (checksummed)
+scripts/depth_experiment.sh    hop-depth experiment for first-order methods (results/depth/)
+scripts/hop_depth.py           hop depth of the shortest-path tree of a .gr instance
 scripts/fetch_zenodo_roads.sh  9th-DIMACS USA road graphs from Zenodo, converted (convert_roads.py)
 scripts/fetch_dimacs_roads.sh  same from the original challenge site, which is offline (404);
                     kept for reference, set DIMACS_URL to use a mirror
@@ -42,8 +46,8 @@ scripts/exploratory/    plots for the exploratory prototypes
 
 ## Build
 
-Dependencies (all built from source in the pilot): HiGHS ≥ 1.15, Clp + CoinUtils, GLPK,
-LEMON 1.3.1 headers, optionally OR-Tools (C++). `scripts/build_deps.sh [PREFIX] [SRCDIR]` clones and
+Dependencies (all built from source): HiGHS 1.16, Clp + CoinUtils (with SuiteSparse AMD and
+CHOLMOD), GLPK 5.0, LEMON 1.3.1 headers, optionally OR-Tools 9.15 (C++). `scripts/build_deps.sh [PREFIX] [SRCDIR]` clones and
 builds all of them. Then
 
 ```
@@ -54,6 +58,13 @@ The defaults are `DEPS=$HOME/lpdeps/install` and `LEMON=$HOME/lpdeps/src/lemon/i
 `scripts/build_deps.sh ~/lpdeps/install ~/lpdeps/src`, so a plain `make` works after that.
 
 OR-Tools is detected automatically if `$(DEPS)/ortools/include/ortools/pdlp/...` exists.
+
+The reference max-flow codes are not redistributed here because of their licenses (HIPR and
+pseudoflow: academic, non-commercial; Boykov–Kolmogorov: GPL). `scripts/fetch_flow_codes.sh`
+downloads them (default `~/lpdeps/src/flow`, the Makefile's `FLOW`), and `make` then builds
+`bin/flow-hipr`, `bin/flow-pseudoflow` and `bin/flow-bk` from our drivers in `src/flowref/`, which
+include the original sources unchanged. Each is a separate binary (GPL and academic licenses do not
+mix), with the authors' optimization flags.
 
 ## LP formulations
 
@@ -68,9 +79,16 @@ OR-Tools is detected automatically if `$(DEPS)/ortools/include/ortools/pdlp/...`
 * **Classical**: own binary-heap Dijkstra; LEMON Dijkstra; LEMON Preflow (highest-label
   push–relabel, phase 1); LEMON network simplex (the graph-aware simplex, on the same LP);
   Garg–Könemann/Fleischer FPTAS for concurrent flow (ε = 0.1, 0.05; approximate).
+  Max flow also: HIPR 4.2 (Cherkassky–Goldberg highest-label push–relabel), pseudoflow 3.23
+  (Chandran–Hochbaum, lowest label, FIFO buckets) and Boykov–Kolmogorov maxflow 3.04, as
+  `classic:hipr`, `classic:pseudoflow`, `classic:bk`. Their reported value comes from phase 1 (HIPR,
+  pseudoflow; as LEMON Preflow) or the full run (BK); RLG's 2^40 "infinite" capacities exceed the
+  32-bit capacities of HIPR and pseudoflow, so `run.py` hands them a copy with those capacities
+  replaced by the capacity of a finite s–t cut, which leaves the max-flow value unchanged.
 * **Simplex (sparse LU)**: HiGHS dual/primal (hyper-sparse revised simplex), Clp dual/primal,
   GLPK primal/dual, OR-Tools GLOP dual/primal.
-* **Interior point**: HiGHS IPX (with and without crossover), Clp barrier, GLPK interior.
+* **Interior point**: HiGHS IPX (with and without crossover), Clp barrier (native Cholesky,
+  `clp-barrier`; CHOLMOD with AMD ordering, `clp-barrier-chol`), GLPK interior.
 * **First-order**: HiGHS PDLP (cuPDLP-C), OR-Tools PDLP, own PDHG.
 * **Kaczmarz-style**: own SKM (De Loera–Haddock–Needell) on the optimality system; own
   proximal Hildreth row action.

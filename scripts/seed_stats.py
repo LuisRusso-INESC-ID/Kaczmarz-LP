@@ -12,9 +12,10 @@ import collections, json, math, re, statistics, sys
 SPMF = ["sp-grid", "sp-rand", "sp-road", "mf-rlg", "mf-rmf", "mf-vision"]
 SIMPLEX = ["highs-dual", "highs-primal", "clp-dual", "clp-primal", "glpk-primal", "glpk-dual",
            "ortools-glop", "ortools-glop-primal"]
-IPM = ["highs-ipx", "highs-ipx-cross", "clp-barrier", "glpk-ipt"]
+IPM = ["highs-ipx", "highs-ipx-cross", "clp-barrier", "clp-barrier-chol", "glpk-ipt"]
 GROUPS = [("own Dijkstra", ["classic:dijkstra"]), ("LEMON Dijkstra", ["classic:lemon-dijkstra"]),
           ("Preflow", ["classic:lemon-preflow"]), ("LEMON NS", ["classic:lemon-ns"]),
+          ("HIPR", ["classic:hipr"]), ("pseudoflow", ["classic:pseudoflow"]), ("BK", ["classic:bk"]),
           ("simplex", SIMPLEX), ("interior point", IPM), ("own PDHG", ["own-pdhg"]),
           ("OR-Tools PDLP", ["ortools-pdlp"]), ("HiGHS PDLP", ["highs-pdlp"]),
           ("prox. Hildreth", ["own-prow"])]
@@ -63,6 +64,8 @@ for si, (summ, raw) in enumerate(pairs, 1):
     sp = [T[(f, m)] / T[(f, "classic:lemon-preflow")] for f in SPMF[3:] for m in SIMPLEX if (f, m) in T]
     fd = [T[(f, m)] / T[(f, "classic:dijkstra")] for f in SPMF[:3] for m in ("own-pdhg", "ortools-pdlp") if (f, m) in T]
     fp = [T[(f, m)] / T[(f, "classic:lemon-preflow")] for f in SPMF[3:] for m in ("own-pdhg", "ortools-pdlp") if (f, m) in T]
+    fh = [T[(f, m)] / T[(f, "classic:hipr")] for f in SPMF[3:] for m in ("own-pdhg", "ortools-pdlp") if (f, m) in T and (f, "classic:hipr") in T]
+    sh = [T[(f, m)] / T[(f, "classic:hipr")] for f in SPMF[3:] for m in SIMPLEX if (f, m) in T and (f, "classic:hipr") in T]
     tr = []
     for inst, d in by.items():
         if not inst.startswith("sp-") or "classic:dijkstra" not in d:
@@ -75,7 +78,8 @@ for si, (summ, raw) in enumerate(pairs, 1):
     print(f"seed {si}: " + "; ".join(f"{k} {v[0]}-{v[1]}" for k, v in out.items() if v))
     print(f"   simplex/Dijkstra {min(sd):.0f}-{max(sd):.0f}x, simplex/Preflow {min(sp):.0f}-{max(sp):.0f}x, "
           f"first-order/Dijkstra {min(fd):.1f}-{max(fd):.1f}x, first-order/Preflow {min(fp):.1f}-{max(fp):.1f}x, "
-          f"fastest LP/Dijkstra time {min(tr):.0f}-{max(tr):.0f}x")
+          f"fastest LP/Dijkstra time {min(tr):.0f}-{max(tr):.0f}x"
+          + (f", first-order/HIPR {min(fh):.1f}-{max(fh):.1f}x, simplex/HIPR {min(sh):.0f}-{max(sh):.0f}x" if fh else ""))
 
 # spread across seeds for runs solved in every seed
 allruns = [runs(raw) for _, raw in pairs]

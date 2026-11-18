@@ -8,7 +8,7 @@ The road plans read data/USA-road-t.*.gr (scripts/fetch_zenodo_roads.sh); --seed
 Set LPBENCH_CPU=k to pin every solve to CPU k (choose a fixed-frequency performance core).
 Re-running skips (instance, method) pairs already present in the output file.
 """
-import argparse, json, os, resource, subprocess, sys, time, signal, shlex
+import collections, argparse, json, os, resource, subprocess, sys, time, signal, shlex
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.path.join(ROOT, "bin")
@@ -47,14 +47,62 @@ CLASSIC = {
     "mf": ["lemon-preflow", "lemon-ns"],
     "mcf": ["gk:0.1", "gk:0.05"],
 }
+# reference max-flow codes (scripts/fetch_flow_codes.sh), one binary each: bin/flow-<name>
+FLOWREF = ["hipr", "pseudoflow", "bk"]
 LP_BACKENDS = ["build-only",
                "highs-dual", "highs-primal", "highs-ipx-cross", "highs-ipx", "highs-pdlp",
-               "clp-dual", "clp-primal", "clp-barrier",
+               "clp-dual", "clp-primal", "clp-barrier", "clp-barrier-chol",
                "glpk-primal", "glpk-dual", "glpk-ipt",
                "ortools-glop", "ortools-glop-primal", "ortools-pdlp",
                "own-pdhg", "own-prow", "own-skm"]
 
 MEM_LIMIT = 6 * 1024**3   # address-space cap per solve
+
+
+INT32_MAX = 2**31 - 1
+
+
+def c32_path(path):
+    """Copy of a .max instance whose capacities fit in 32 bits, for HIPR and pseudoflow.
+    Capacities above INT32_MAX (the 'infinite' source/sink arcs of RLG) are replaced by C, the
+    capacity of the cut around X = nodes reachable from s by such arcs. That cut has only finite
+    arcs, so C >= max flow, and every cut through a replaced arc has capacity >= C: the minimum
+    cut, and so the max-flow value, is unchanged. Returns the original path if nothing is big."""
+    lines = open(path).read().splitlines()
+    arcs, s = [], None
+    for l in lines:
+        t = l.split()
+        if t and t[0] == "n" and t[2] == "s":
+            s = int(t[1])
+        elif t and t[0] == "a":
+            arcs.append((int(t[1]), int(t[2]), int(t[3])))
+    if all(c <= INT32_MAX for _, _, c in arcs):
+        return path
+    out = path[:-4] + ".c32.max"
+    if os.path.exists(out) and os.path.getmtime(out) >= os.path.getmtime(path):
+        return out
+    big = collections.defaultdict(list)
+    for u, v, c in arcs:
+        if c > INT32_MAX:
+            big[u].append(v)
+    X, stack = {s}, [s]
+    while stack:
+        for v in big[stack.pop()]:
+            if v not in X:
+                X.add(v); stack.append(v)
+    C = sum(c for u, v, c in arcs if u in X and v not in X)
+    assert all(c <= INT32_MAX for u, v, c in arcs if u in X and v not in X)
+    if C > INT32_MAX:
+        raise ValueError(f"{path}: finite cut {C} does not fit in 32 bits")
+    with open(out, "w") as f:
+        f.write(f"c {os.path.basename(path)} with capacities > 2^31-1 replaced by {C}, the capacity of a\n"
+                "c finite s-t cut (max-flow value unchanged); see scripts/run.py c32_path\n")
+        for l in lines:
+            t = l.split()
+            if t and t[0] == "a" and int(t[3]) > INT32_MAX:
+                l = f"a {t[1]} {t[2]} {C}"
+            f.write(l + "\n")
+    return out
 
 
 def lp_binary(backend):
@@ -148,7 +196,8 @@ def main():
             failed = set()   # methods that failed/timed out on a smaller size of this family
             for si, params in enumerate(plan[fam]):
                 name, path = instance_path(fam, params, a.seed)
-                methods = [("classic", m) for m in CLASSIC[kind]] + [("lp", b) for b in lp_backs]
+                flow = [m for m in FLOWREF if os.path.exists(os.path.join(BIN, "flow-" + m))] if kind == "mf" else []
+                methods = [("classic", m) for m in CLASSIC[kind] + flow] + [("lp", b) for b in lp_backs]
                 for typ, m in methods:
                     mname = m if typ == "lp" else "classic:" + m
                     if restrict and mname not in restrict and m not in restrict:
@@ -161,7 +210,9 @@ def main():
                         rec = {"instance": name, "family": fam, "params": params, "method": mname,
                                "status": "skipped(smaller failed)"}
                         fo.write(json.dumps(rec) + "\n"); fo.flush(); continue
-                    if typ == "classic":
+                    if typ == "classic" and m in FLOWREF:
+                        cmd = [os.path.join(BIN, "flow-" + m), c32_path(path)]
+                    elif typ == "classic":
                         algo, _, opt = m.partition(":")
                         cmd = [os.path.join(BIN, "classic"), algo, path] + ([opt] if opt else [])
                     else:

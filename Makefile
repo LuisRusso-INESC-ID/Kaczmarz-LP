@@ -10,8 +10,13 @@ LEMON  ?= $(HOME)/lpdeps/src/lemon/include
 CXX    ?= g++
 CXXFLAGS ?= -O2 -std=c++17 -DNDEBUG
 ORT    = $(DEPS)/ortools
+# reference max-flow codes, fetched by scripts/fetch_flow_codes.sh (not redistributed; see there)
+FLOW   ?= $(HOME)/lpdeps/src/flow
+FLOWBIN = $(if $(wildcard $(FLOW)/hipr42/main.c),bin/flow-hipr) \
+          $(if $(wildcard $(FLOW)/pseudo_max/src/3.23/pseudo.c),bin/flow-pseudoflow) \
+          $(if $(wildcard $(FLOW)/maxflow-v3.04.src/maxflow.cpp),bin/flow-bk)
 
-all: bin/gen bin/classic bin/lpsolve $(if $(wildcard $(ORT)/include/ortools/pdlp),bin/lpsolve-ort)
+all: bin/gen bin/classic bin/lpsolve $(if $(wildcard $(ORT)/include/ortools/pdlp),bin/lpsolve-ort) $(FLOWBIN)
 
 HDRS = src/lp.h src/pdhg.h src/skm.h src/prowact.h src/hybrid.h src/bisect.h src/instance.h
 
@@ -29,6 +34,16 @@ bin/lpsolve-ort: src/lpsolve.cpp src/ortools_backend.h $(HDRS)
 	  -I$(ORT)/include -I$(ORT)/include/eigen3 -Isrc -o $@ $< \
 	  -L$(ORT)/lib -Wl,-rpath,$(ORT)/lib -lortools -lprotobuf \
 	  $(patsubst $(ORT)/lib/lib%.so,-l%,$(wildcard $(ORT)/lib/libabsl_*.so))
+
+# authors' optimization flags; -std=gnu17 (GCC 15+ defaults to C23) and -include stdlib.h
+# and string.h (the 2008-era C calls malloc/free/strcmp undeclared, an error in GCC 14+)
+bin/flow-hipr: src/flowref/hipr_driver.c
+	$(CC) -O3 -std=gnu17 -include stdlib.h -include string.h -DNDEBUG -DFULL_RELABEL -DLASY_UPDATE -w -I$(FLOW)/hipr42 -o $@ $< \
+	  $(FLOW)/hipr42/parser.c $(FLOW)/hipr42/timer.c -lm
+bin/flow-pseudoflow: src/flowref/pseudo_driver.c
+	$(CC) -O3 -std=gnu17 -include stdlib.h -DLOWEST_LABEL -DFIFO_BUCKET -w -I$(FLOW)/pseudo_max/src/3.23 -o $@ $<
+bin/flow-bk: src/flowref/bk_driver.cpp src/flowref/bk_maxflow.cpp
+	$(CXX) -O3 -std=c++17 -DNDEBUG -w -I$(FLOW)/maxflow-v3.04.src -o $@ $^
 
 clean:
 	rm -f bin/*

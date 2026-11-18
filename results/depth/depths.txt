@@ -1,0 +1,16 @@
+depth-grid-64x64.gr                   n=   4096 m=   16128 bfs_ecc=  126 spt_depth=  136 spt_mean=   68.4
+depth-grid-32x128.gr                  n=   4096 m=   16064 bfs_ecc=  158 spt_depth=  179 spt_mean=   91.3
+depth-grid-16x256.gr                  n=   4096 m=   15840 bfs_ecc=  270 spt_depth=  349 spt_mean=  170.8
+depth-grid-8x512.gr                   n=   4096 m=   15344 bfs_ecc=  518 spt_depth=  655 spt_mean=  326.2
+depth-grid-4x1024.gr                  n=   4096 m=   14328 bfs_ecc= 1026 spt_depth= 1293 spt_mean=  641.4
+sp-grid-32x32-s1.gr          n=   1024 m=    3968 bfs_ecc=   62 spt_depth=   74 spt_mean=   36.3
+sp-grid-64x64-s1.gr          n=   4096 m=   16128 bfs_ecc=  126 spt_depth=  136 spt_mean=   68.4
+sp-grid-128x128-s1.gr        n=  16384 m=   65024 bfs_ecc=  254 spt_depth=  264 spt_mean=  141.2
+sp-road-32x32-s1.gr          n=   1024 m=    3452 bfs_ecc=   53 spt_depth=   56 spt_mean=   29.4
+sp-road-64x64-s1.gr          n=   4096 m=   13972 bfs_ecc=  106 spt_depth=  116 spt_mean=   59.1
+sp-road-128x128-s1.gr        n=  16384 m=   56254 bfs_ecc=  206 spt_depth=  220 spt_mean=  116.1
+sp-rand-4000x4-s1.gr         n=   4000 m=   19998 bfs_ecc=    8 spt_depth=   17 spt_mean=    7.7
+sp-rand-16000x4-s1.gr        n=  16000 m=   79997 bfs_ecc=    9 spt_depth=   22 spt_mean=    9.9
+sp-rand-64000x4-s1.gr        n=  64000 m=  319995 bfs_ecc=   10 spt_depth=   23 spt_mean=   10.6
+USA-road-t.NW-40k.gr         n=  17684 m=   40000 bfs_ecc=  127 spt_depth=  208 spt_mean=  111.0
+USA-road-t.NW-160k.gr        n=  70144 m=  160000 bfs_ecc=  207 spt_depth=  688 spt_mean=  298.7

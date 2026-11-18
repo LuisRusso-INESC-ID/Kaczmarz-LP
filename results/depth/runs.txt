@@ -1,0 +1,10 @@
+64x64 own-pdhg status=optimal obj=69564369.3067 iters=127360 t_solve=13.7509 
+64x64 ortools-pdlp status=optimal obj=69564433.0517 iters=63744 t_solve=10.6223 
+32x128 own-pdhg status=optimal obj=99035568.2483 iters=307520 t_solve=32.0397 
+32x128 ortools-pdlp status=optimal obj=99037474.9384 iters=63680 t_solve=10.2726 
+16x256 own-pdhg status=optimal obj=180950047.004 iters=380480 t_solve=38.0627 
+16x256 ortools-pdlp status=optimal obj=180947758.212 iters=118656 t_solve=20.1924 
+8x512 own-pdhg status=optimal obj=370747048.079 iters=448576 t_solve=43.0716 
+8x512 ortools-pdlp status=optimal obj=370734605.196 iters=163072 t_solve=27.3029 
+4x1024 own-pdhg status=optimal obj=796629155.206 iters=1051264 t_solve=88.8276 
+4x1024 ortools-pdlp status=optimal obj=796629275.432 iters=381376 t_solve=55.4451 

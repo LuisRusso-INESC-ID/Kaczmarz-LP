@@ -157,6 +157,9 @@ static Out run_clp(LP& L, std::string mode, double tl, double tol, long& hwm_loa
     if (mode == "clp-dual") opt.setSolveType(ClpSolve::useDual);
     else if (mode == "clp-primal") opt.setSolveType(ClpSolve::usePrimal);
     else opt.setSolveType(ClpSolve::useBarrierNoCross);
+    // clp-barrier-chol: Cholesky by CHOLMOD with AMD ordering (ClpCholeskyUfl; needs Clp built
+    // with CHOLMOD) instead of Clp's native factorization with its own minimum-fill ordering
+    if (mode == "clp-barrier-chol") opt.setSpecialOption(4, 4);
     opt.setPresolveType(nopre ? ClpSolve::presolveOff : ClpSolve::presolveOn);
     auto t1 = Clock::now();
     M.initialSolve(opt);
