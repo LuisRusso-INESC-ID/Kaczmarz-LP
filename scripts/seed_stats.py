@@ -13,12 +13,14 @@ SPMF = ["sp-grid", "sp-rand", "sp-road", "mf-rlg", "mf-rmf", "mf-vision"]
 SIMPLEX = ["highs-dual", "highs-primal", "clp-dual", "clp-primal", "glpk-primal", "glpk-dual",
            "ortools-glop", "ortools-glop-primal"]
 IPM = ["highs-ipx", "highs-ipx-cross", "clp-barrier", "glpk-ipt"]   # default configurations
+# "simplex" and "interior point" are the open-source codes; Gurobi (commercial) is reported apart.
 GROUPS = [("own Dijkstra", ["classic:dijkstra"]), ("LEMON Dijkstra", ["classic:lemon-dijkstra"]),
           ("Preflow", ["classic:lemon-preflow"]), ("LEMON NS", ["classic:lemon-ns"]),
           ("HIPR", ["classic:hipr"]), ("pseudoflow", ["classic:pseudoflow"]), ("BK", ["classic:bk"]),
           ("simplex", SIMPLEX), ("interior point", IPM), ("Clp barrier CHOLMOD", ["clp-barrier-chol"]), ("own PDHG", ["own-pdhg"]),
           ("OR-Tools PDLP", ["ortools-pdlp"]), ("HiGHS PDLP", ["highs-pdlp"]),
-          ("prox. Hildreth", ["own-prow"])]
+          ("prox. Hildreth", ["own-prow"]), ("Gurobi simplex", ["gurobi-primal", "gurobi-dual"]),
+          ("Gurobi barrier", ["gurobi-barrier", "gurobi-barrier-cross"]), ("Gurobi PDHG", ["gurobi-pdhg"])]
 
 
 def bpa(summary):
@@ -66,7 +68,7 @@ for si, (summ, raw) in enumerate(pairs, 1):
     fp = [T[(f, m)] / T[(f, "classic:lemon-preflow")] for f in SPMF[3:] for m in ("own-pdhg", "ortools-pdlp") if (f, m) in T]
     fh = [T[(f, m)] / T[(f, "classic:hipr")] for f in SPMF[3:] for m in ("own-pdhg", "ortools-pdlp") if (f, m) in T and (f, "classic:hipr") in T]
     sh = [T[(f, m)] / T[(f, "classic:hipr")] for f in SPMF[3:] for m in SIMPLEX if (f, m) in T and (f, "classic:hipr") in T]
-    tr = []
+    tr, tro = [], []
     for inst, d in by.items():
         if not inst.startswith("sp-") or "classic:dijkstra" not in d:
             continue
@@ -74,11 +76,14 @@ for si, (summ, raw) in enumerate(pairs, 1):
         best = [r["t_solve"] for m, r in d.items() if not m.startswith("classic") and m != "build-only" and ok(r, dj["obj"])]
         if best:
             tr.append(min(best) / max(dj["t_solve"], 1e-6))
+        best = [r["t_solve"] for m, r in d.items() if not m.startswith(("classic", "gurobi")) and m != "build-only" and ok(r, dj["obj"])]
+        if best:
+            tro.append(min(best) / max(dj["t_solve"], 1e-6))
     per_seed.append(out)
     print(f"seed {si}: " + "; ".join(f"{k} {v[0]}-{v[1]}" for k, v in out.items() if v))
     print(f"   simplex/Dijkstra {min(sd):.0f}-{max(sd):.0f}x, simplex/Preflow {min(sp):.0f}-{max(sp):.0f}x, "
           f"first-order/Dijkstra {min(fd):.1f}-{max(fd):.1f}x, first-order/Preflow {min(fp):.1f}-{max(fp):.1f}x, "
-          f"fastest LP/Dijkstra time {min(tr):.0f}-{max(tr):.0f}x"
+          f"fastest LP/Dijkstra time {min(tr):.0f}-{max(tr):.0f}x (open-source only {min(tro):.0f}-{max(tro):.0f}x)"
           + (f", first-order/HIPR {min(fh):.1f}-{max(fh):.1f}x, simplex/HIPR {min(sh):.0f}-{max(sh):.0f}x" if fh else ""))
 
 # spread across seeds for runs solved in every seed

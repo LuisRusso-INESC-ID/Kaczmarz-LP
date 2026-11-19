@@ -1,9 +1,9 @@
-seed 1: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-66; LEMON NS 126-143; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 434-1430; interior point 507-2290; Clp barrier CHOLMOD 581-4062; own PDHG 192-211; OR-Tools PDLP 216-322; HiGHS PDLP 554-789; prox. Hildreth 176-202
-   simplex/Dijkstra 19-52x, simplex/Preflow 7-22x, first-order/Dijkstra 7.2-14.0x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 105-1084x, first-order/HIPR 2.2-3.3x, simplex/HIPR 6-16x
-seed 2: own Dijkstra 23-27; LEMON Dijkstra 47-50; Preflow 58-67; LEMON NS 126-143; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 433-1430; interior point 507-2274; Clp barrier CHOLMOD 581-4044; own PDHG 187-220; OR-Tools PDLP 217-309; HiGHS PDLP 554-786; prox. Hildreth 163-196
-   simplex/Dijkstra 18-52x, simplex/Preflow 7-21x, first-order/Dijkstra 7.5-13.4x, first-order/Preflow 2.9-4.1x, fastest LP/Dijkstra time 104-1017x, first-order/HIPR 2.2-3.3x, simplex/HIPR 6-16x
-seed 3: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-67; LEMON NS 126-142; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 429-1510; interior point 507-2259; Clp barrier CHOLMOD 581-3869; own PDHG 189-217; OR-Tools PDLP 218-309; HiGHS PDLP 555-793; prox. Hildreth 162-175
-   simplex/Dijkstra 19-52x, simplex/Preflow 7-23x, first-order/Dijkstra 7.4-13.4x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 105-1019x, first-order/HIPR 2.2-3.2x, simplex/HIPR 6-17x
+seed 1: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-66; LEMON NS 126-143; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 434-1430; interior point 507-2290; Clp barrier CHOLMOD 581-4062; own PDHG 192-211; OR-Tools PDLP 216-322; HiGHS PDLP 554-789; prox. Hildreth 176-202; Gurobi simplex 489-845; Gurobi barrier 632-1981; Gurobi PDHG 632-913
+   simplex/Dijkstra 19-52x, simplex/Preflow 7-22x, first-order/Dijkstra 7.2-14.0x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 84-332x (open-source only 105-1084x), first-order/HIPR 2.2-3.3x, simplex/HIPR 6-16x
+seed 2: own Dijkstra 23-27; LEMON Dijkstra 47-50; Preflow 58-67; LEMON NS 126-143; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 433-1430; interior point 507-2274; Clp barrier CHOLMOD 581-4044; own PDHG 187-220; OR-Tools PDLP 217-309; HiGHS PDLP 554-786; prox. Hildreth 163-196; Gurobi simplex 485-852; Gurobi barrier 634-1985; Gurobi PDHG 633-720
+   simplex/Dijkstra 18-52x, simplex/Preflow 7-21x, first-order/Dijkstra 7.5-13.4x, first-order/Preflow 2.9-4.1x, fastest LP/Dijkstra time 68-357x (open-source only 104-1017x), first-order/HIPR 2.2-3.3x, simplex/HIPR 6-16x
+seed 3: own Dijkstra 23-27; LEMON Dijkstra 47-49; Preflow 58-67; LEMON NS 126-142; HIPR 73-91; pseudoflow 71-88; BK 62-80; simplex 429-1510; interior point 507-2259; Clp barrier CHOLMOD 581-3869; own PDHG 189-217; OR-Tools PDLP 218-310; HiGHS PDLP 555-793; prox. Hildreth 162-175; Gurobi simplex 485-843; Gurobi barrier 636-1922; Gurobi PDHG 636-719
+   simplex/Dijkstra 19-52x, simplex/Preflow 7-23x, first-order/Dijkstra 7.4-13.5x, first-order/Preflow 3.0-4.1x, fastest LP/Dijkstra time 97-358x (open-source only 105-1019x), first-order/HIPR 2.2-3.2x, simplex/HIPR 6-17x
 
 spread over seeds (max/min) for runs solved in all seeds with t_solve > 0.05 s; median [max]:
   classic:bk             time 1.15 [1.29]   memory 1.00 [1.00]   (n=6)
@@ -22,6 +22,11 @@ spread over seeds (max/min) for runs solved in all seeds with t_solve > 0.05 s; 
   glpk-dual              time 1.04 [6.08]   memory 1.01 [1.09]   (n=20)
   glpk-ipt               time 1.08 [12.02]   memory 1.00 [1.60]   (n=21)
   glpk-primal            time 1.06 [2.41]   memory 1.00 [1.08]   (n=24)
+  gurobi-barrier         time 1.07 [1.16]   memory 1.03 [1.23]   (n=29)
+  gurobi-barrier-cross   time 1.06 [2.34]   memory 1.03 [1.45]   (n=29)
+  gurobi-dual            time 1.18 [2.37]   memory 1.01 [1.10]   (n=24)
+  gurobi-pdhg            time 1.37 [2.52]   memory 1.00 [1.04]   (n=27)
+  gurobi-primal          time 1.11 [2.14]   memory 1.01 [1.10]   (n=27)
   highs-dual             time 1.11 [4.61]   memory 1.02 [1.15]   (n=23)
   highs-ipx              time 1.11 [1.41]   memory 1.01 [1.03]   (n=17)
   highs-ipx-cross        time 1.12 [7.92]   memory 1.02 [1.37]   (n=26)

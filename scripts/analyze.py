@@ -43,6 +43,7 @@ if not os.path.exists(probe):
         subprocess.run([os.path.join(ROOT, "bin", "gen"), "sp-grid", "3", "3", "1"], stdout=f)
 BASE = {"lp": baseline([os.path.join(ROOT, "bin", "lpsolve"), "build-only", probe]),
         "lp-ort": baseline([os.path.join(ROOT, "bin", "lpsolve-ort"), "build-only", probe]) if os.path.exists(os.path.join(ROOT, "bin", "lpsolve-ort")) else 0.0,
+        "lp-grb": baseline([os.path.join(ROOT, "bin", "lpsolve-grb"), "build-only", probe]) if os.path.exists(os.path.join(ROOT, "bin", "lpsolve-grb")) else 0.0,
         "classic": baseline([os.path.join(ROOT, "bin", "classic"), "dijkstra", probe])}
 # reference max-flow codes: one binary each (bin/flow-<name>), baseline on a 2-node instance
 FLOWREF = ["hipr", "pseudoflow", "bk"]
@@ -90,7 +91,7 @@ for r in R:
     info = inst_info.get(r["instance"], {})
     kind = r["family"].split("-")[0]
     binkind = ("flow-" + r["method"][8:] if r["method"][8:] in FLOWREF else "classic") if r["method"].startswith("classic:") \
-        else ("lp-ort" if r["method"].startswith("ortools-") else "lp")
+        else ("lp-ort" if r["method"].startswith("ortools-") else "lp-grb" if r["method"].startswith("gurobi-") else "lp")
     hwm = r.get("hwm_end_kb", float("nan"))
     rows.append(dict(instance=r["instance"], family=r["family"], kind=kind, method=r["method"],
                      n=info.get("n"), m=info.get("m"), status=r.get("status"), solved=solved(r),
@@ -158,11 +159,12 @@ open(os.path.join(outdir, "summary.md"), "w").write("\n".join(md) + "\n")
 PLOT_METHODS = ["classic:dijkstra", "classic:lemon-preflow", "classic:lemon-ns", "classic:gk:0.05",
                 "classic:hipr", "classic:pseudoflow", "classic:bk",
                 "highs-dual", "highs-ipx-cross", "highs-pdlp", "clp-dual", "clp-barrier", "glpk-primal",
-                "ortools-glop", "ortools-pdlp", "own-pdhg", "own-prow"]
+                "ortools-glop", "ortools-pdlp", "own-pdhg", "own-prow",
+                "gurobi-dual", "gurobi-barrier", "gurobi-pdhg"]
 STYLE = {m: (c, mk) for m, c, mk in zip(PLOT_METHODS,
          ["#111111", "#111111", "#666666", "#111111", "#444444", "#888888", "#aaaaaa", "#1f77b4", "#2ca02c", "#17becf", "#ff7f0e", "#d62728",
-          "#8c564b", "#9467bd", "#e377c2", "#bcbd22", "#7f7f7f"],
-         ["o", "o", "s", "o", "d", "8", "x", "^", "v", "D", "<", ">", "p", "h", "*", "P", "X"])}
+          "#8c564b", "#9467bd", "#e377c2", "#bcbd22", "#7f7f7f", "#003f5c", "#a05195", "#f95d6a"],
+         ["o", "o", "s", "o", "d", "8", "x", "^", "v", "D", "<", ">", "p", "h", "*", "P", "X", "1", "2", "3"])}
 for kind in ("sp", "mf", "mcf"):
     K = [x for x in rows if x["kind"] == kind]
     if not K: continue

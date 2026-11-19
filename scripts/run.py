@@ -56,6 +56,7 @@ LP_BACKENDS = ["build-only",
                "clp-dual", "clp-primal", "clp-barrier", "clp-barrier-chol",
                "glpk-primal", "glpk-dual", "glpk-ipt",
                "ortools-glop", "ortools-glop-primal", "ortools-pdlp",
+               "gurobi-primal", "gurobi-dual", "gurobi-barrier", "gurobi-barrier-cross", "gurobi-pdhg",
                "own-pdhg", "own-prow", "own-skm"]
 
 MEM_LIMIT = 6 * 1024**3   # address-space cap per solve
@@ -108,7 +109,8 @@ def c32_path(path):
 
 
 def lp_binary(backend):
-    return os.path.join(BIN, "lpsolve-ort" if backend.startswith("ortools-") else "lpsolve")
+    return os.path.join(BIN, "lpsolve-ort" if backend.startswith("ortools-")
+                        else "lpsolve-grb" if backend.startswith("gurobi-") else "lpsolve")
 
 
 def available_lp_backends():

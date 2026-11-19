@@ -5,18 +5,23 @@
 # ~10 MB resident) do not inflate the memory baseline of the other backends:
 #   bin/lpsolve      HiGHS, Clp, GLPK and the own prototypes
 #   bin/lpsolve-ort  OR-Tools GLOP and PDLP (and the own prototypes)
+#   bin/lpsolve-grb  Gurobi (and the own prototypes); built only if gurobi_c.h is found under
+#                    GUROBI_INC (commercial, needs a license; academic licenses are free)
 DEPS   ?= $(HOME)/lpdeps/install
 LEMON  ?= $(HOME)/lpdeps/src/lemon/include
 CXX    ?= g++
 CXXFLAGS ?= -O2 -std=c++17 -DNDEBUG
 ORT    = $(DEPS)/ortools
+GUROBI_INC ?= $(if $(GUROBI_HOME),$(GUROBI_HOME)/include,/usr/include)
+GUROBI_LIB ?= $(if $(GUROBI_HOME),$(GUROBI_HOME)/lib,/usr/lib)
 # reference max-flow codes, fetched by scripts/fetch_flow_codes.sh (not redistributed; see there)
 FLOW   ?= $(HOME)/lpdeps/src/flow
 FLOWBIN = $(if $(wildcard $(FLOW)/hipr42/main.c),bin/flow-hipr) \
           $(if $(wildcard $(FLOW)/pseudo_max/src/3.23/pseudo.c),bin/flow-pseudoflow) \
           $(if $(wildcard $(FLOW)/maxflow-v3.04.src/maxflow.cpp),bin/flow-bk)
 
-all: bin/gen bin/classic bin/lpsolve $(if $(wildcard $(ORT)/include/ortools/pdlp),bin/lpsolve-ort) $(FLOWBIN)
+all: bin/gen bin/classic bin/lpsolve $(if $(wildcard $(ORT)/include/ortools/pdlp),bin/lpsolve-ort) \
+     $(if $(wildcard $(GUROBI_INC)/gurobi_c.h),bin/lpsolve-grb) $(FLOWBIN)
 
 HDRS = src/lp.h src/pdhg.h src/skm.h src/prowact.h src/hybrid.h src/bisect.h src/instance.h
 
@@ -34,6 +39,10 @@ bin/lpsolve-ort: src/lpsolve.cpp src/ortools_backend.h $(HDRS)
 	  -I$(ORT)/include -I$(ORT)/include/eigen3 -Isrc -o $@ $< \
 	  -L$(ORT)/lib -Wl,-rpath,$(ORT)/lib -lortools -lprotobuf \
 	  $(patsubst $(ORT)/lib/lib%.so,-l%,$(wildcard $(ORT)/lib/libabsl_*.so))
+
+bin/lpsolve-grb: src/lpsolve.cpp src/gurobi_backend.h $(HDRS)
+	$(CXX) $(CXXFLAGS) -march=native -DHAVE_GUROBI -I$(GUROBI_INC) -Isrc -o $@ $< \
+	  -L$(GUROBI_LIB) -Wl,-rpath,$(GUROBI_LIB) -lgurobi130
 
 # authors' optimization flags; -std=gnu17 (GCC 15+ defaults to C23) and -include stdlib.h
 # and string.h (the 2008-era C calls malloc/free/strcmp undeclared, an error in GCC 14+)

@@ -17,7 +17,9 @@ METHODS = [("classic:dijkstra", "Dijkstra", "k", "o"), ("classic:lemon-dijkstra"
            ("classic:lemon-ns", "LEMON network simplex", "0.6", "s"), ("glpk-ipt", "GLPK interior point", "C4", "D"),
            ("clp-barrier", "Clp barrier", "C3", ">"), ("clp-primal", "Clp primal", "C1", "<"),
            ("highs-primal", "HiGHS primal", "C0", "^"), ("ortools-glop-primal", "GLOP primal", "C9", "v"),
-           ("own-pdhg", "own PDHG", "C8", "P"), ("ortools-pdlp", "OR-Tools PDLP", "C6", "*")]
+           ("own-pdhg", "own PDHG", "C8", "P"), ("ortools-pdlp", "OR-Tools PDLP", "C6", "*"),
+           ("gurobi-barrier", "Gurobi barrier", "C2", "h"), ("gurobi-primal", "Gurobi primal", "C5", "X"),
+           ("gurobi-pdhg", "Gurobi PDHG", "navy", "d")]
 
 
 def baseline(cmd, reps=9):   # median of several empty runs, as in analyze.py

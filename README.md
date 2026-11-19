@@ -21,11 +21,12 @@ src/instance.h      DIMACS .gr / .max readers, own .mcf format, CSR helpers
 src/gen.cpp         instance generators (re-implementations of the standard families)
 src/classic.cpp     classical baselines (Dijkstra, LEMON Preflow / network simplex, Garg–Könemann)
 src/lp.h            sparse LP model (CSC) + the three LP formulations
-src/lpsolve.cpp     one LP backend per process: HiGHS, Clp, GLPK, OR-Tools, own prototypes
+src/lpsolve.cpp     one LP backend per process: HiGHS, Clp, GLPK, OR-Tools, Gurobi, own prototypes
 src/pdhg.h          own restarted PDHG (PDLP recipe: Ruiz + Pock–Chambolle, adaptive restarts)
 src/skm.h           own Sampling Kaczmarz–Motzkin on the primal–dual optimality system
 src/prowact.h       own proximal-point + Hildreth row action (Kaczmarz-style dual coordinate ascent)
 src/ortools_backend.h  GLOP and PDLP through their direct C++ APIs
+src/gurobi_backend.h   Gurobi (commercial, needs a license) through its C API
 src/flowref/        drivers for the reference max-flow codes HIPR, pseudoflow, Boykov–Kolmogorov
 scripts/build_deps.sh   clone and build HiGHS, Clp, GLPK, LEMON, OR-Tools from source
 scripts/run.py      driver (plans "small", "pilot", "roads", "roads-usa"; --seed; resumable; JSONL output)
@@ -59,6 +60,12 @@ The defaults are `DEPS=$HOME/lpdeps/install` and `LEMON=$HOME/lpdeps/src/lemon/i
 
 OR-Tools is detected automatically if `$(DEPS)/ortools/include/ortools/pdlp/...` exists.
 
+Gurobi (optional, commercial; free academic licenses) is detected if `gurobi_c.h` is in
+`$(GUROBI_HOME)/include` (default `/usr/include`); `make` then also builds `bin/lpsolve-grb`, a
+separate binary so that libgurobi does not change the memory baseline of `bin/lpsolve`. The paper
+used Gurobi 13.0.3 (`-lgurobi130`). Gurobi needs a valid license at run time (e.g. `~/gurobi.lic`);
+set `LPSOLVE_GRB_LOG=1` to see Gurobi's log. Everything else runs without Gurobi.
+
 The reference max-flow codes are not redistributed here because of their licenses (HIPR and
 pseudoflow: academic, non-commercial; Boykov–Kolmogorov: GPL). `scripts/fetch_flow_codes.sh`
 downloads them (default `~/lpdeps/src/flow`, the Makefile's `FLOW`), and `make` then builds
@@ -90,6 +97,8 @@ mix), with the authors' optimization flags.
 * **Interior point**: HiGHS IPX (with and without crossover), Clp barrier (native Cholesky,
   `clp-barrier`; CHOLMOD with AMD ordering, `clp-barrier-chol`), GLPK interior.
 * **First-order**: HiGHS PDLP (cuPDLP-C), OR-Tools PDLP, own PDHG.
+* **Commercial reference** (Gurobi 13): `gurobi-primal`, `gurobi-dual`, `gurobi-barrier` (no
+  crossover), `gurobi-barrier-cross`, `gurobi-pdhg` (CPU, no crossover).
 * **Kaczmarz-style**: own SKM (De Loera–Haddock–Needell) on the optimality system; own
   proximal Hildreth row action.
 
@@ -146,7 +155,7 @@ relative error 1e-3 of the combinatorial optimum. Net memory subtracts the media
 empty-process runs of the same binary.
 
 Backends `highs-*` and `clp-*` accept a `-nopre` suffix (presolve off), e.g. `highs-dual-nopre`.
-OR-Tools backends are dispatched to `bin/lpsolve-ort` automatically.
+OR-Tools backends are dispatched to `bin/lpsolve-ort`, Gurobi backends to `bin/lpsolve-grb`, automatically.
 
 ## Results (in `results/`)
 
@@ -159,7 +168,8 @@ a fixed 3.0 GHz, 60 s per solve, tolerance 1e-6, single thread):
   graph, classical codes) and `roads/` (summary, `roads.png`).
 * The GLPK records (GLPK 5.0) and `clp-barrier-chol` (Clp barrier with CHOLMOD/AMD) were added to
   these files by a later rerun (`rerun-glpk5-chol.log`), and the HIPR, pseudoflow and BK records by
-  `flowref-pin.log`; the GLPK 4.60 records they replace are in `superseded/`.
+  `flowref-pin.log`; the GLPK 4.60 records they replace are in `superseded/`. The Gurobi records
+  were added by `rerun-gurobi.log` (same machine and pinning).
 * Net memory subtracts `base_kb`, the peak of an empty run of the same binary with the same shared
   libraries, which `run.py` stores in every record. Records written before it did so were annotated
   with the baseline measured for their build: 7,744 kB for `lpsolve` with the native-ordering Clp

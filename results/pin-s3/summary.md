@@ -17,13 +17,18 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.114 / 3.9 | 2.18 / 13.9 | 49.6 / 54.6 | TL / 201 | - |
 | glpk-ipt | 0.0117 / 3.7 | 0.0856 / 12.7 | 0.783 / 50.0 | 7.93 / 204.2 | TL / 844 |
 | glpk-primal | 0.056 / 3.7 | 0.901 / 12.9 | 20 / 50.5 | TL / 202 | - |
+| gurobi-barrier | 0.0129 / 10.8 | 0.0655 / 18.1 | 0.366 / 49.1 | 2.42 / 167.0 | 12.3 / 645.4 |
+| gurobi-barrier-cross | 0.0146 / 13.9 | 0.0741 / 22.2 | 0.396 / 60.9 | 2.68 / 216.3 | 13.4 / 760.3 |
+| gurobi-dual | 0.0499 / 6.6 | 0.666 / 12.4 | 12.8 / 32.8 | TL / 120 | - |
+| gurobi-pdhg | 0.309 / 6.6 | 3.33 / 14.0 | 42.2 / 43.5 | TL / 162 | - |
+| gurobi-primal | 0.0108 / 8.0 | 0.0804 / 15.4 | 0.727 / 47.4 | 8.5 / 166.4 | TL / 630 |
 | highs-dual | 0.0979 / 6.5 | 1.43 / 18.8 | 20 / 69.5 | TL / 255 | - |
 | highs-ipx | x(Unknown, err 6e-01) | - | - | - | - |
 | highs-ipx-cross | 0.12 / 7.2 | 1.63 / 17.8 | 22 / 75.9 | TL / 240 | - |
 | highs-pdlp | 1.67 / 4.7 | 30.4 / 11.3 | TL / 39 | - | - |
 | highs-primal | 0.0205 / 6.3 | 0.274 / 18.3 | 4.97 / 64.5 | TL / 254 | - |
 | ortools-glop | 0.055 / 3.8 | 0.664 / 12.3 | 11.2 / 44.7 | TL / 172 | - |
-| ortools-glop-primal | 0.025 / 3.7 | 0.2 / 11.7 | 2.45 / 44.0 | 33.2 / 174.4 | TL / 681 |
+| ortools-glop-primal | 0.025 / 3.8 | 0.2 / 11.7 | 2.45 / 44.1 | 33.2 / 174.4 | TL / 681 |
 | ortools-pdlp | 0.753 / 2.0 | 14.1 / 4.6 | TL / 15 | - | - |
 | own-pdhg | 1.06 / 0.9 | 19.4 / 3.3 | TL / 12 | - | - |
 | own-prow | TL / 1 | - | - | - | - |
@@ -43,13 +48,18 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.683 / 4.7 | 21.6 / 15.6 | TL / 61 | - | - |
 | glpk-ipt | 0.386 / 5.6 | 33 / 43.1 | TL / nan | - | - |
 | glpk-primal | 0.0552 / 4.3 | 1.16 / 15.7 | 21.8 / 60.3 | TL / 240 | - |
+| gurobi-barrier | 0.092 / 15.6 | 1.95 / 45.9 | 3.56 / 57.7 | 21.5 / 469.9 | TL / 807 |
+| gurobi-barrier-cross | 0.0936 / 15.7 | 1.96 / 43.1 | 3.61 / 68.4 | 21.7 / 475.2 | TL / 806 |
+| gurobi-dual | 0.0958 / 7.3 | 1.43 / 14.7 | 22.6 / 45.5 | TL / 154 | - |
+| gurobi-pdhg | 0.0868 / 7.3 | 0.822 / 16.5 | 8.65 / 53.1 | TL / 199 | - |
+| gurobi-primal | 0.0236 / 9.0 | 0.11 / 20.1 | 0.589 / 65.9 | 3.04 / 240.6 | 35.5 / 973.0 |
 | highs-dual | 0.14 / 7.9 | 1.51 / 20.4 | 22.6 / 87.3 | TL / 292 | - |
 | highs-ipx | 0.0383 / 6.8 | 0.23 / 18.3 | 1.43 / 66.7 | 9.17 / 257.5 | TL / 1008 |
 | highs-ipx-cross | 0.0435 / 7.3 | 0.399 / 18.2 | 3.23 / 68.0 | 13.7 / 258.4 | TL / 1005 |
 | highs-pdlp | 0.602 / 5.3 | 4.32 / 13.4 | 50.9 / 46.8 | TL / 178 | - |
 | highs-primal | 0.0301 / 7.8 | 0.366 / 20.2 | 6.36 / 86.8 | TL / 296 | - |
-| ortools-glop | 0.089 / 5.0 | 1.24 / 16.4 | 20.7 / 67.4 | TL / 247 | - |
-| ortools-glop-primal | 0.0297 / 4.8 | 0.224 / 16.0 | 2.51 / 62.8 | 37.1 / 245.6 | TL / 951 |
+| ortools-glop | 0.089 / 5.0 | 1.24 / 16.5 | 20.7 / 67.4 | TL / 247 | - |
+| ortools-glop-primal | 0.0297 / 4.8 | 0.224 / 16.0 | 2.51 / 62.9 | 37.1 / 245.6 | TL / 951 |
 | ortools-pdlp | 0.476 / 2.0 | 2.89 / 5.3 | 25.4 / 18.1 | TL / 70 | - |
 | own-pdhg | 0.19 / 1.1 | 2.71 / 3.9 | 22.6 / 15.3 | TL / 63 | - |
 | own-prow | 7.33 / 0.8 | TL / 3 | - | - | - |
@@ -69,14 +79,19 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.0746 / 3.8 | 1.34 / 11.8 | 27.1 / 44.9 | TL / 180 | - |
 | glpk-ipt | 0.0098 / 3.2 | 0.0556 / 11.3 | 0.348 / 44.0 | 2.62 / 176.2 | 24.9 / 705.6 |
 | glpk-primal | 0.0398 / 3.4 | 0.62 / 11.4 | 11.2 / 44.8 | TL / 176 | - |
+| gurobi-barrier | 0.0132 / 10.6 | 0.0655 / 16.9 | 0.324 / 43.1 | 1.88 / 143.4 | 11.4 / 567.1 |
+| gurobi-barrier-cross | 0.0146 / 11.7 | 0.0738 / 19.4 | 0.37 / 55.2 | 2.19 / 206.6 | 14 / 692.2 |
+| gurobi-dual | 0.0402 / 6.6 | 0.708 / 12.3 | 7.72 / 34.7 | TL / 113 | - |
+| gurobi-pdhg | 0.342 / 6.2 | 3.18 / 12.7 | 40.9 / 38.5 | TL / 143 | - |
+| gurobi-primal | 0.0077 / 7.8 | 0.0471 / 17.9 | 0.178 / 53.9 | 1.49 / 204.0 | 38.1 / 727.4 |
 | highs-dual | 0.0751 / 6.8 | 1.01 / 18.2 | 12.9 / 64.5 | TL / 224 | - |
 | highs-ipx | x(Unknown, err 9e-01) | - | - | - | - |
 | highs-ipx-cross | 0.0989 / 7.3 | 1.22 / 18.0 | 14.1 / 63.2 | TL / 214 | - |
 | highs-pdlp | 1.95 / 4.4 | 23.3 / 10.6 | TL / 35 | - | - |
 | highs-primal | 0.0156 / 6.6 | 0.133 / 18.3 | 1.63 / 64.2 | 24.2 / 256.2 | TL / 738 |
 | ortools-glop | 0.0543 / 3.7 | 0.682 / 12.2 | 6.58 / 49.6 | TL / 184 | - |
-| ortools-glop-primal | 0.0217 / 3.9 | 0.183 / 12.0 | 1.76 / 48.6 | 23.2 / 179.2 | TL / 796 |
-| ortools-pdlp | 0.82 / 1.8 | 9.58 / 4.1 | TL / 14 | - | - |
+| ortools-glop-primal | 0.0217 / 3.9 | 0.183 / 12.0 | 1.76 / 48.7 | 23.2 / 179.3 | TL / 796 |
+| ortools-pdlp | 0.82 / 1.9 | 9.58 / 4.1 | TL / 14 | - | - |
 | own-pdhg | 1.16 / 1.0 | 13.6 / 2.9 | TL / 11 | - | - |
 | own-prow | TL / 1 | - | - | - | - |
 | own-skm | TL / 1 | - |  |  |  |
@@ -97,12 +112,17 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.143 / 3.0 | 3.14 / 10.9 | TL / 39 | - | - |
 | glpk-ipt | 0.0506 / 5.2 | 0.394 / 23.1 | 7.45 / 105.6 | TL / nan | - |
 | glpk-primal | 0.0731 / 3.2 | 1.45 / 10.2 | 33.2 / 38.6 | TL / 153 | - |
+| gurobi-barrier | 0.0166 / 10.4 | 0.104 / 17.4 | 0.711 / 55.0 | 7.5 / 236.0 | TL / 1175 |
+| gurobi-barrier-cross | 0.0219 / 11.4 | 0.253 / 25.0 | 1.08 / 55.0 | 9.83 / 230.1 | TL / 1173 |
+| gurobi-dual | 0.0236 / 6.3 | 0.216 / 11.3 | 2.24 / 30.2 | 30.3 / 108.7 | TL / 400 |
+| gurobi-pdhg | 0.0217 / 6.0 | 0.232 / 11.7 | 2.46 / 34.4 | 20.3 / 125.3 | TL / 493 |
+| gurobi-primal | 0.036 / 7.9 | 0.776 / 14.5 | 2.12 / 42.8 | 28.3 / 156.4 | TL / 621 |
 | highs-dual | 0.0966 / 6.2 | 2.14 / 17.6 | TL / 69 | - | - |
 | highs-ipx | 0.0231 / 5.4 | 0.161 / 13.1 | 1.08 / 44.9 | 7.38 / 170.4 | TL / 663 |
 | highs-ipx-cross | 0.0313 / 6.0 | 0.259 / 14.3 | 2.37 / 45.8 | 31.3 / 169.6 | TL / 671 |
 | highs-pdlp | 0.0687 / 4.4 | 1.45 / 9.4 | 14.9 / 30.3 | TL / 114 | - |
 | highs-primal | 0.0451 / 6.1 | 1.3 / 15.7 | 30.7 / 61.1 | TL / 207 | - |
-| ortools-glop | 0.0333 / 3.7 | 0.419 / 12.2 | 7.86 / 49.4 | TL / 203 | - |
+| ortools-glop | 0.0333 / 3.7 | 0.419 / 12.2 | 7.86 / 49.4 | TL / 204 | - |
 | ortools-glop-primal | 0.0312 / 3.6 | 0.677 / 12.6 | 12.9 / 50.1 | TL / 204 | - |
 | ortools-pdlp | 0.0901 / 1.7 | 1.23 / 3.7 | 10.1 / 12.0 | TL / 45 | - |
 | own-pdhg | 0.0628 / 0.7 | 0.765 / 2.4 | 5.3 / 9.4 | TL / 39 | - |
@@ -114,7 +134,7 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | method | m=2,240 | m=7,920 | m=19,200 | m=66,240 | m=158,720 |
 |---|---|---|---|---|---|
 | classic:bk | 0.000982 / 0.2 | 0.00815 / 0.5 | 0.0481 / 1.4 | 0.766 / 4.7 | 5.01 / 11.2 |
-| classic:hipr | 0.000189 / 0.2 | 0.000768 / 0.4 | 0.0022 / 1.1 | 0.0103 / 4.3 | 0.0276 / 11.0 |
+| classic:hipr | 0.000189 / 0.1 | 0.000768 / 0.4 | 0.0022 / 1.1 | 0.0103 / 4.3 | 0.0276 / 11.0 |
 | classic:lemon-ns | 0.00137 / 0.1 | 0.0136 / 0.8 | 0.0816 / 2.2 | 1.02 / 7.8 | 6.22 / 19.1 |
 | classic:lemon-preflow | 0.000551 / 0.1 | 0.00481 / 0.4 | 0.0257 / 0.9 | 0.22 / 3.5 | 1.06 / 8.8 |
 | classic:pseudoflow | 0.000204 / 0.2 | 0.00112 / 0.6 | 0.00432 / 1.4 | 0.0332 / 4.7 | 0.109 / 11.1 |
@@ -125,13 +145,18 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.0259 / 2.5 | 0.276 / 7.0 | 1.88 / 14.9 | 28.2 / 50.6 | TL / 119 |
 | glpk-ipt | 0.0194 / 3.8 | 0.309 / 14.8 | x(fail(17,3), err 1e-02) | - | - |
 | glpk-primal | 0.0199 / 2.2 | 0.251 / 6.8 | 1.91 / 14.8 | 27.5 / 50.1 | TL / 119 |
+| gurobi-barrier | 0.0074 / 9.8 | 0.0597 / 14.6 | 0.3 / 29.1 | 2.81 / 88.7 | 27.9 / 291.0 |
+| gurobi-barrier-cross | 0.0124 / 10.9 | 0.0788 / 14.7 | 0.765 / 39.8 | 3.14 / 85.7 | TL / 365 |
+| gurobi-dual | 0.0184 / 5.9 | 0.181 / 7.6 | 1.04 / 12.1 | 15.9 / 32.4 | TL / 72 |
+| gurobi-pdhg | 0.0316 / 5.6 | 0.211 / 8.8 | 0.535 / 15.4 | 3.64 / 43.4 | 17.5 / 99.0 |
+| gurobi-primal | 0.0107 / 6.5 | 0.0807 / 9.8 | 0.435 / 16.3 | 5.34 / 43.6 | 32.3 / 94.1 |
 | highs-dual | 0.0149 / 5.1 | 0.0778 / 9.7 | 0.254 / 18.5 | 1.63 / 59.8 | 9.67 / 138.1 |
 | highs-ipx | 0.0151 / 4.8 | 0.0549 / 9.1 | 0.169 / 17.3 | 1.01 / 50.8 | 2.98 / 118.1 |
 | highs-ipx-cross | 0.0186 / 5.1 | 0.0756 / 9.1 | 0.276 / 17.1 | 1.58 / 52.5 | 7.42 / 119.9 |
 | highs-pdlp | 0.146 / 3.9 | 1.25 / 7.0 | 4.27 / 12.9 | 30 / 39.5 | TL / 92 |
 | highs-primal | 0.0224 / 5.1 | 0.18 / 9.6 | 1.1 / 18.7 | 14.2 / 56.4 | TL / 129 |
-| ortools-glop | 0.0132 / 2.6 | 0.138 / 6.4 | 0.789 / 14.1 | 16.6 / 48.0 | TL / 115 |
-| ortools-glop-primal | 0.0192 / 2.9 | 0.236 / 6.7 | 1.7 / 14.5 | 25.4 / 53.2 | TL / 122 |
+| ortools-glop | 0.0132 / 2.6 | 0.138 / 6.5 | 0.789 / 14.1 | 16.6 / 48.0 | TL / 115 |
+| ortools-glop-primal | 0.0192 / 2.9 | 0.236 / 6.7 | 1.7 / 14.6 | 25.4 / 53.2 | TL / 122 |
 | ortools-pdlp | 0.129 / 1.5 | 0.813 / 2.6 | 2.73 / 4.9 | 22.4 / 14.9 | TL / 34 |
 | own-pdhg | 0.219 / 0.7 | 0.658 / 1.6 | 2.47 / 3.5 | 21.4 / 13.5 | 52.5 / 31.7 |
 | own-prow | 0.436 / 0.5 | 6.31 / 1.3 | 43.7 / 3.2 | TL / 12 | - |
@@ -142,7 +167,7 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | method | m=4,984 | m=20,203 | m=81,321 | m=326,314 | m=1,307,334 |
 |---|---|---|---|---|---|
 | classic:bk | 0.000428 / 0.3 | 0.00159 / 1.1 | 0.00689 / 4.7 | 0.03 / 19.9 | 0.14 / 77.8 |
-| classic:hipr | 0.000309 / 0.3 | 0.00124 / 1.1 | 0.00512 / 5.4 | 0.0229 / 23.0 | 0.13 / 93.5 |
+| classic:hipr | 0.000309 / 0.3 | 0.00124 / 1.1 | 0.00512 / 5.4 | 0.0229 / 22.9 | 0.13 / 93.5 |
 | classic:lemon-ns | 0.00116 / 0.4 | 0.0055 / 2.2 | 0.0315 / 9.7 | 0.213 / 39.9 | 2.26 / 158.5 |
 | classic:lemon-preflow | 0.00098 / 0.3 | 0.0101 / 0.9 | 0.0961 / 4.5 | 0.751 / 19.9 | 14.9 / 75.6 |
 | classic:pseudoflow | 0.000176 / 0.3 | 0.000772 / 1.4 | 0.00421 / 5.5 | 0.0231 / 22.2 | 0.253 / 88.9 |
@@ -153,6 +178,11 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.0601 / 4.2 | 0.992 / 15.2 | 19.9 / 59.3 | TL / 236 | - |
 | glpk-ipt | 0.0218 / 7.7 | 0.112 / 32.9 | 0.774 / 131.9 | 5.35 / 535.3 | 45 / 2158.1 |
 | glpk-primal | 0.0462 / 4.2 | 0.885 / 15.2 | 18.4 / 59.2 | TL / 236 | - |
+| gurobi-barrier | 0.0147 / 11.0 | 0.0627 / 17.9 | 0.296 / 52.3 | 1.54 / 198.1 | 6.79 / 793.4 |
+| gurobi-barrier-cross | 0.0195 / 11.9 | 0.0828 / 20.7 | 0.383 / 59.1 | 2.09 / 211.9 | 9.52 / 793.3 |
+| gurobi-dual | 0.016 / 7.1 | 0.0679 / 13.8 | 0.344 / 40.7 | 1.86 / 152.2 | 10.6 / 605.3 |
+| gurobi-pdhg | 0.0233 / 7.3 | 0.0986 / 16.5 | 0.428 / 52.4 | 1.96 / 200.0 | 9.52 / 793.4 |
+| gurobi-primal | 0.0186 / 8.4 | 0.0798 / 16.8 | 0.329 / 53.5 | 1.57 / 198.7 | 6.89 / 776.2 |
 | highs-dual | 0.0267 / 6.7 | 0.116 / 17.8 | 0.663 / 67.4 | 4.3 / 249.4 | 31.2 / 988.0 |
 | highs-ipx | x(Unknown, err 7e-09) | - | - | - | - |
 | highs-ipx-cross | 0.0379 / 7.0 | 0.179 / 17.5 | 1.07 / 63.2 | 4.64 / 235.3 | 29.8 / 901.8 |
@@ -178,13 +208,18 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.0567 / 2.6 | 1.59 / 6.9 | 16.6 / 14.8 | TL / 45 | - |
 | glpk-ipt | 0.0081 / 2.0 | 0.0719 / 6.2 | 11 / 32.5 | TL / nan | - |
 | glpk-primal | 0.0101 / 2.3 | 0.0616 / 6.0 | 0.493 / 12.4 | 3.16 / 40.3 | 33.7 / 95.3 |
+| gurobi-barrier | 0.0102 / 9.9 | 0.0584 / 15.1 | 0.159 / 19.6 | 0.846 / 54.0 | 3.63 / 126.3 |
+| gurobi-barrier-cross | 0.0156 / 11.0 | 0.0834 / 16.1 | 0.267 / 21.6 | 1.27 / 55.9 | 8.42 / 189.6 |
+| gurobi-dual | 0.0165 / 6.3 | 0.0804 / 8.4 | 0.454 / 15.1 | 3.19 / 33.7 | 18.6 / 73.1 |
+| gurobi-pdhg | 0.0218 / 5.9 | 0.173 / 7.9 | 0.42 / 13.0 | 2.36 / 33.6 | 6.21 / 73.5 |
+| gurobi-primal | 0.0084 / 6.2 | 0.0339 / 8.5 | 0.253 / 13.2 | 1.01 / 33.3 | 8.37 / 73.1 |
 | highs-dual | 0.0205 / 5.1 | 0.361 / 8.8 | 5.66 / 14.9 | TL / 63 | - |
 | highs-ipx | 0.0365 / 4.7 | 0.206 / 8.2 | 0.94 / 14.6 | 8.5 / 39.5 | 46.8 / 93.1 |
 | highs-ipx-cross | 0.0448 / 4.7 | 0.299 / 8.1 | 1.39 / 14.5 | 13.5 / 39.4 | TL / 92 |
 | highs-pdlp | 0.0428 / 3.7 | 0.515 / 6.1 | 0.96 / 10.5 | 7.11 / 29.4 | 20.1 / 66.6 |
 | highs-primal | 0.0105 / 5.0 | 0.0544 / 8.7 | 0.313 / 14.2 | 1.9 / 39.4 | 16.9 / 96.5 |
 | ortools-glop | 0.0352 / 3.0 | 0.529 / 6.3 | 7.34 / 12.3 | TL / 40 | - |
-| ortools-glop-primal | 0.0058 / 2.9 | 0.03 / 5.5 | 0.109 / 11.3 | 0.664 / 33.5 | 3.12 / 76.1 |
+| ortools-glop-primal | 0.0058 / 2.9 | 0.03 / 5.6 | 0.109 / 11.3 | 0.664 / 33.5 | 3.12 / 76.2 |
 | ortools-pdlp | 0.0392 / 1.4 | 0.501 / 2.3 | 0.933 / 4.2 | 7.04 / 11.8 | 21.6 / 26.9 |
 | own-pdhg | 0.0382 / 0.6 | 0.426 / 1.2 | 0.81 / 2.8 | 6.03 / 9.1 | 15.1 / 21.5 |
 | own-prow | 0.256 / 0.4 | 3.72 / 1.1 | 29.1 / 2.6 | TL / 9 | - |
@@ -203,6 +238,11 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 | glpk-dual | 0.203 / 4.9 | 23.7 / 17.3 | TL / 43 | - | - |
 | glpk-ipt | 0.169 / 5.0 | 7.05 / 27.5 | TL / nan | - | - |
 | glpk-primal | 0.0122 / 4.0 | 0.11 / 12.5 | 0.599 / 31.6 | 4.93 / 114.5 | 46.6 / 302.5 |
+| gurobi-barrier | 0.0566 / 18.5 | 0.766 / 33.9 | 3.86 / 104.3 | TL / 921 | - |
+| gurobi-barrier-cross | 0.106 / 14.7 | 1.22 / 30.2 | 7.96 / 102.2 | TL / 913 | - |
+| gurobi-dual | 0.0323 / 7.4 | 0.154 / 13.0 | 0.578 / 27.3 | 4.49 / 92.0 | 24.2 / 238.8 |
+| gurobi-pdhg | 0.0603 / 6.9 | 0.208 / 13.2 | 0.73 / 27.3 | 3.58 / 92.0 | 28.4 / 240.0 |
+| gurobi-primal | 0.0151 / 7.4 | 0.0983 / 13.2 | 0.641 / 27.4 | 21.1 / 91.8 | TL / 238 |
 | highs-dual | 0.203 / 7.3 | 0.433 / 15.7 | 9.43 / 40.0 | 42.2 / 143.0 | TL / 300 |
 | highs-ipx | 0.125 / 6.5 | 0.896 / 14.5 | 3.61 / 31.7 | 42 / 117.2 | TL / 299 |
 | highs-ipx-cross | 0.215 / 6.7 | 2.15 / 14.9 | 12.8 / 35.4 | TL / 115 | - |
@@ -217,16 +257,16 @@ Process baselines (empty run, used for records without their own base_kb): lpsol
 
 ## Net memory per input arc at the largest solved instance (bytes/arc)
 
-| family | classic:bk | classic:dijkstra | classic:gk:0.05 | classic:gk:0.1 | classic:hipr | classic:lemon-dijkstra | classic:lemon-ns | classic:lemon-preflow | classic:pseudoflow | clp-barrier | clp-barrier-chol | clp-dual | clp-primal | glpk-dual | glpk-ipt | glpk-primal | highs-dual | highs-ipx | highs-ipx-cross | highs-pdlp | highs-primal | ortools-glop | ortools-glop-primal | ortools-pdlp | own-pdhg | own-prow | own-skm |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| sp-grid |  | 23 (m=1046k) |  |  |  | 47 (m=1046k) | 136 (m=1046k) |  |  | 507 (m=1046k) | 581 (m=1046k) | 506 (m=65k) | 455 (m=261k) | 880 (m=65k) | 820 (m=261k) | 815 (m=65k) | 1121 (m=65k) |  | 1224 (m=65k) | 736 (m=16k) | 1040 (m=65k) | 720 (m=65k) | 700 (m=261k) | 296 (m=16k) | 215 (m=16k) |  |  |
-| sp-rand |  | 27 (m=1279k) |  |  |  | 49 (m=1279k) | 129 (m=1279k) |  |  | 1964 (m=19k) | 3869 (m=19k) | 505 (m=79k) | 505 (m=319k) | 819 (m=19k) | 2259 (m=19k) | 791 (m=79k) | 1145 (m=79k) | 844 (m=319k) | 847 (m=319k) | 613 (m=79k) | 1137 (m=79k) | 884 (m=79k) | 805 (m=319k) | 237 (m=79k) | 201 (m=79k) | 163 (m=4k) |  |
-| sp-road |  | 23 (m=904k) |  |  |  | 49 (m=904k) | 142 (m=904k) |  |  | 563 (m=904k) | 636 (m=225k) | 564 (m=56k) | 563 (m=904k) | 839 (m=56k) | 818 (m=904k) | 837 (m=56k) | 1205 (m=56k) |  | 1181 (m=56k) | 793 (m=13k) | 1193 (m=225k) | 927 (m=56k) | 835 (m=225k) | 309 (m=13k) | 217 (m=13k) |  |  |
-| mf-rlg | 80 (m=785k) |  |  |  | 91 (m=785k) |  | 141 (m=196k) | 67 (m=785k) | 88 (m=785k) | 931 (m=49k) | 1479 (m=196k) | 602 (m=49k) | 652 (m=49k) | 935 (m=12k) | 2259 (m=49k) | 825 (m=49k) | 1510 (m=12k) | 910 (m=196k) | 906 (m=196k) | 649 (m=49k) | 1308 (m=49k) | 1057 (m=49k) | 1072 (m=49k) | 257 (m=49k) | 200 (m=49k) | 175 (m=12k) |  |
-| mf-rmf | 74 (m=158k) |  |  |  | 73 (m=158k) |  | 126 (m=158k) | 58 (m=158k) | 74 (m=158k) | 963 (m=19k) | 1910 (m=66k) | 531 (m=66k) | 447 (m=66k) | 802 (m=66k) | 1958 (m=7k) | 793 (m=66k) | 912 (m=158k) | 781 (m=158k) | 792 (m=158k) | 625 (m=66k) | 893 (m=66k) | 760 (m=66k) | 842 (m=66k) | 235 (m=66k) | 209 (m=158k) | 173 (m=19k) |  |
-| mf-vision | 62 (m=1307k) |  |  |  | 75 (m=1307k) |  | 127 (m=1307k) | 61 (m=1307k) | 71 (m=1307k) | 519 (m=1307k) | 707 (m=326k) | 429 (m=326k) | 464 (m=326k) | 765 (m=81k) | 1731 (m=1307k) | 763 (m=81k) | 792 (m=1307k) |  | 723 (m=1307k) | 555 (m=1307k) | 828 (m=81k) | 671 (m=1307k) | 672 (m=1307k) | 218 (m=1307k) | 189 (m=1307k) | 162 (m=20k) |  |
-| mcf-grid |  |  | 74 (m=6k) | 77 (m=6k) |  |  |  |  |  | 18402 (m=1k) | 21835 (m=6k) | 6659 (m=1k) | 9626 (m=6k) | 10191 (m=1k) | 22407 (m=1k) | 16008 (m=6k) | 10286 (m=1k) | 15639 (m=6k) | 11857 (m=3k) | 11191 (m=6k) | 16217 (m=6k) | 8502 (m=1k) | 12796 (m=6k) | 4515 (m=6k) | 3608 (m=6k) | 1773 (m=1k) |  |
-| mcf-rand |  |  | 69 (m=9k) | 58 (m=19k) |  |  |  |  |  | 12267 (m=1k) | 21493 (m=1k) | 5216 (m=1k) | 10826 (m=19k) | 9108 (m=1k) | 14480 (m=1k) | 15861 (m=19k) | 15003 (m=9k) | 12294 (m=9k) | 9281 (m=3k) | 8496 (m=9k) | 18219 (m=19k) | 7504 (m=1k) | 13009 (m=19k) | 3482 (m=9k) | 3764 (m=19k) | 1337 (m=1k) |  |
+| family | classic:bk | classic:dijkstra | classic:gk:0.05 | classic:gk:0.1 | classic:hipr | classic:lemon-dijkstra | classic:lemon-ns | classic:lemon-preflow | classic:pseudoflow | clp-barrier | clp-barrier-chol | clp-dual | clp-primal | glpk-dual | glpk-ipt | glpk-primal | gurobi-barrier | gurobi-barrier-cross | gurobi-dual | gurobi-pdhg | gurobi-primal | highs-dual | highs-ipx | highs-ipx-cross | highs-pdlp | highs-primal | ortools-glop | ortools-glop-primal | ortools-pdlp | own-pdhg | own-prow | own-skm |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| sp-grid |  | 23 (m=1046k) |  |  |  | 47 (m=1046k) | 136 (m=1046k) |  |  | 507 (m=1046k) | 581 (m=1046k) | 506 (m=65k) | 455 (m=261k) | 880 (m=65k) | 820 (m=261k) | 815 (m=65k) | 647 (m=1046k) | 762 (m=1046k) | 529 (m=65k) | 702 (m=65k) | 668 (m=261k) | 1121 (m=65k) |  | 1224 (m=65k) | 736 (m=16k) | 1040 (m=65k) | 720 (m=65k) | 700 (m=261k) | 297 (m=16k) | 215 (m=16k) |  |  |
+| sp-rand |  | 27 (m=1279k) |  |  |  | 49 (m=1279k) | 129 (m=1279k) |  |  | 1964 (m=19k) | 3869 (m=19k) | 505 (m=79k) | 505 (m=319k) | 819 (m=19k) | 2259 (m=19k) | 791 (m=79k) | 1540 (m=319k) | 1557 (m=319k) | 596 (m=79k) | 696 (m=79k) | 797 (m=1279k) | 1145 (m=79k) | 844 (m=319k) | 847 (m=319k) | 613 (m=79k) | 1137 (m=79k) | 884 (m=79k) | 805 (m=319k) | 238 (m=79k) | 201 (m=79k) | 163 (m=4k) |  |
+| sp-road |  | 23 (m=904k) |  |  |  | 49 (m=904k) | 142 (m=904k) |  |  | 563 (m=904k) | 636 (m=225k) | 564 (m=56k) | 563 (m=904k) | 839 (m=56k) | 818 (m=904k) | 837 (m=56k) | 658 (m=904k) | 803 (m=904k) | 649 (m=56k) | 719 (m=56k) | 843 (m=904k) | 1205 (m=56k) |  | 1181 (m=56k) | 793 (m=13k) | 1193 (m=225k) | 928 (m=56k) | 835 (m=225k) | 310 (m=13k) | 217 (m=13k) |  |  |
+| mf-rlg | 80 (m=785k) |  |  |  | 91 (m=785k) |  | 141 (m=196k) | 67 (m=785k) | 88 (m=785k) | 931 (m=49k) | 1479 (m=196k) | 602 (m=49k) | 652 (m=49k) | 935 (m=12k) | 2259 (m=49k) | 825 (m=49k) | 1261 (m=196k) | 1229 (m=196k) | 580 (m=196k) | 669 (m=196k) | 835 (m=196k) | 1510 (m=12k) | 910 (m=196k) | 906 (m=196k) | 649 (m=49k) | 1308 (m=49k) | 1058 (m=49k) | 1073 (m=49k) | 257 (m=49k) | 200 (m=49k) | 175 (m=12k) |  |
+| mf-rmf | 74 (m=158k) |  |  |  | 73 (m=158k) |  | 126 (m=158k) | 58 (m=158k) | 74 (m=158k) | 963 (m=19k) | 1910 (m=66k) | 531 (m=66k) | 447 (m=66k) | 802 (m=66k) | 1958 (m=7k) | 793 (m=66k) | 1922 (m=158k) | 1357 (m=66k) | 513 (m=66k) | 654 (m=158k) | 622 (m=158k) | 912 (m=158k) | 781 (m=158k) | 792 (m=158k) | 625 (m=66k) | 893 (m=66k) | 760 (m=66k) | 842 (m=66k) | 235 (m=66k) | 209 (m=158k) | 173 (m=19k) |  |
+| mf-vision | 62 (m=1307k) |  |  |  | 75 (m=1307k) |  | 127 (m=1307k) | 61 (m=1307k) | 71 (m=1307k) | 519 (m=1307k) | 707 (m=326k) | 429 (m=326k) | 464 (m=326k) | 765 (m=81k) | 1731 (m=1307k) | 763 (m=81k) | 636 (m=1307k) | 636 (m=1307k) | 485 (m=1307k) | 636 (m=1307k) | 623 (m=1307k) | 792 (m=1307k) |  | 723 (m=1307k) | 555 (m=1307k) | 828 (m=81k) | 671 (m=1307k) | 672 (m=1307k) | 218 (m=1307k) | 189 (m=1307k) | 162 (m=20k) |  |
+| mcf-grid |  |  | 74 (m=6k) | 77 (m=6k) |  |  |  |  |  | 18402 (m=1k) | 21835 (m=6k) | 6659 (m=1k) | 9626 (m=6k) | 10191 (m=1k) | 22407 (m=1k) | 16008 (m=6k) | 21229 (m=6k) | 31866 (m=6k) | 12276 (m=6k) | 12343 (m=6k) | 12291 (m=6k) | 10286 (m=1k) | 15639 (m=6k) | 11857 (m=3k) | 11191 (m=6k) | 16217 (m=6k) | 8513 (m=1k) | 12799 (m=6k) | 4518 (m=6k) | 3608 (m=6k) | 1773 (m=1k) |  |
+| mcf-rand |  |  | 69 (m=9k) | 58 (m=19k) |  |  |  |  |  | 12267 (m=1k) | 21493 (m=1k) | 5216 (m=1k) | 10826 (m=19k) | 9108 (m=1k) | 14480 (m=1k) | 15861 (m=19k) | 27370 (m=3k) | 26821 (m=3k) | 12521 (m=19k) | 12584 (m=19k) | 9628 (m=9k) | 15003 (m=9k) | 12294 (m=9k) | 9281 (m=3k) | 8496 (m=9k) | 18219 (m=19k) | 7512 (m=1k) | 13010 (m=19k) | 3483 (m=9k) | 3764 (m=19k) | 1337 (m=1k) |  |
 
 ## Correctness
 
@@ -234,6 +274,6 @@ Reference: {'sp': 'classic:dijkstra', 'mf': 'classic:lemon-preflow', 'mcf': 'hig
 
 - sp-grid-512x512-s3 glpk-ipt: rel. error 4.41e-09, t_solve 87.5 s
 
-Largest relative objective error among solved runs, per method: classic:bk 0e+00, classic:dijkstra 0e+00, classic:hipr 0e+00, classic:lemon-dijkstra 0e+00, classic:lemon-ns 0e+00, classic:lemon-preflow 0e+00, classic:pseudoflow 0e+00, clp-barrier 9e-09, clp-barrier-chol 9e-07, clp-dual 0e+00, clp-primal 2e-11, glpk-dual 0e+00, glpk-ipt 7e-09, glpk-primal 0e+00, highs-dual 0e+00, highs-ipx 7e-07, highs-ipx-cross 0e+00, highs-pdlp 1e-05, highs-primal 0e+00, ortools-glop 0e+00, ortools-glop-primal 0e+00, ortools-pdlp 7e-04, own-pdhg 2e-05, own-prow 9e-05
+Largest relative objective error among solved runs, per method: classic:bk 0e+00, classic:dijkstra 0e+00, classic:hipr 0e+00, classic:lemon-dijkstra 0e+00, classic:lemon-ns 0e+00, classic:lemon-preflow 0e+00, classic:pseudoflow 0e+00, clp-barrier 9e-09, clp-barrier-chol 9e-07, clp-dual 0e+00, clp-primal 2e-11, glpk-dual 0e+00, glpk-ipt 7e-09, glpk-primal 0e+00, gurobi-barrier 7e-07, gurobi-barrier-cross 0e+00, gurobi-dual 0e+00, gurobi-pdhg 5e-06, gurobi-primal 0e+00, highs-dual 0e+00, highs-ipx 7e-07, highs-ipx-cross 0e+00, highs-pdlp 1e-05, highs-primal 0e+00, ortools-glop 0e+00, ortools-glop-primal 0e+00, ortools-pdlp 7e-04, own-pdhg 2e-05, own-prow 9e-05
 
 Garg–Könemann (approximate) relative gap to the LP optimum: mcf-grid-10x10x4x5 gk:0.1: 6.6e-03, mcf-grid-10x10x4x5 gk:0.05: 4.0e-03, mcf-grid-15x15x6x5 gk:0.1: 5.6e-03, mcf-grid-15x15x6x5 gk:0.05: 1.9e-03, mcf-grid-20x20x8x5 gk:0.1: 4.8e-03, mcf-grid-20x20x8x5 gk:0.05: 3.1e-03, mcf-grid-30x30x12x5 gk:0.1: 3.1e-03, mcf-grid-30x30x12x5 gk:0.05: 2.0e-03, mcf-grid-40x40x16x5 gk:0.1: 5.3e-03, mcf-grid-40x40x16x5 gk:0.05: 3.7e-03, mcf-rand-200x3x4x5 gk:0.1: 4.5e-03, mcf-rand-200x3x4x5 gk:0.05: 2.4e-03, mcf-rand-500x3x6x5 gk:0.1: 5.3e-04, mcf-rand-500x3x6x5 gk:0.05: 1.7e-04, mcf-rand-1000x3x8x5 gk:0.1: 2.7e-03, mcf-rand-1000x3x8x5 gk:0.05: 1.8e-03, mcf-rand-2500x3x12x5 gk:0.1: 1.9e-04, mcf-rand-2500x3x12x5 gk:0.05: 2.3e-04, mcf-rand-5000x3x16x5 gk:0.1: 1.7e-03

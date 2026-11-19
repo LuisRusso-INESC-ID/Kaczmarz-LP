@@ -4,6 +4,7 @@
 //   backends: build-only | highs-dual | highs-primal | highs-ipx | highs-ipx-cross |
 //             highs-pdlp | glpk-primal | glpk-dual | glpk-ipt | clp-dual | clp-primal |
 //             clp-barrier | own-pdhg | own-skm | (with -DHAVE_ORTOOLS) ortools-glop | ortools-pdlp
+//             (with -DHAVE_GUROBI) gurobi-primal | gurobi-dual | gurobi-barrier[-cross] | gurobi-pdhg
 //
 // The process prints one "RESULT ..." line; peak memory is measured by the driver (wait4
 // rusage), and also reported here as VmHWM at three checkpoints: after reading the
@@ -45,6 +46,9 @@ template <class T> static void release(std::vector<T>& v) { std::vector<T>().swa
 static void release(LP& L) { release(L.c); release(L.clo); release(L.cup); release(L.rlo); release(L.rup); release(L.start); release(L.index); release(L.value); }
 #ifdef HAVE_ORTOOLS
 #include "ortools_backend.h"
+#endif
+#ifdef HAVE_GUROBI
+#include "gurobi_backend.h"
 #endif
 
 #ifdef HAVE_HIGHS
@@ -201,6 +205,9 @@ int main(int argc, char** argv) {
 #endif
 #ifdef HAVE_ORTOOLS
     else if (be.rfind("ortools-", 0) == 0) o = run_ortools(L, be, tl, tol, hwm_load);
+#endif
+#ifdef HAVE_GUROBI
+    else if (be.rfind("gurobi-", 0) == 0) o = run_gurobi(L, be, tl, tol, hwm_load);
 #endif
     else if (be == "own-pdhg") {
         Pdhg P(L); auto t1 = Clock::now();

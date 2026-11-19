@@ -20,6 +20,9 @@ COLS = [  # (summary column, LaTeX header)
     ("ortools-pdlp", "OR-Tools PDLP"),
     ("own-pdhg", "own PDHG"),
     ("own-prow", "prox.\\ Hildreth"),
+    ("gurobi-primal", "Gurobi primal"),
+    ("gurobi-barrier", "Gurobi barrier"),
+    ("gurobi-pdhg", "Gurobi PDHG"),
 ]
 
 lines = open(sys.argv[1]).read().splitlines()
