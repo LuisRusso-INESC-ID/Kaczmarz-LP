@@ -11,7 +11,8 @@ license: MIT
 repository-code: "https://github.com/LuisRusso-INESC-ID/Kaczmarz-LP"
 abstract: >-
   Benchmark harness, instance generators, raw results and analysis scripts comparing general
-  sparse LP solvers (HiGHS, Clp, GLPK, OR-Tools GLOP and PDLP, and own PDHG and Kaczmarz-style
+  sparse LP solvers (HiGHS, Clp, GLPK, OR-Tools GLOP and PDLP, Gurobi as a commercial reference,
+  and own PDHG and Kaczmarz-style
   prototypes) with classical combinatorial codes (Dijkstra, push-relabel including HIPR,
   pseudoflow, Boykov-Kolmogorov, network simplex, Garg-Könemann) on shortest paths, maximum flow and maximum concurrent flow, measuring solve
   time and net peak memory per arc, on synthetic families and the 9th DIMACS USA road network.
