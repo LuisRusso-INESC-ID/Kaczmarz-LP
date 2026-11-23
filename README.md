@@ -7,9 +7,13 @@ general sparse LP solver need on problems that have dedicated combinatorial algo
 Problems: single-source shortest paths, s–t maximum flow, maximum concurrent multicommodity
 flow. Every solve runs in its own process; peak memory is the process's own `VmHWM`.
 
-This is the code and data for a paper in preparation (target: ACM Transactions on Mathematical
-Software). Every table and figure in the paper is regenerated from the raw results in `results/`
-by the scripts below.
+This is the code and data for the paper *The Cost of Generality:
+Memory and Time of Open-Source LP Solvers on Network Problems*,
+submitted to ACM Transactions on Mathematical Software as a research
+paper, with a Replicated Computational Results (RCR) review to be
+requested. Every table and figure in the paper is regenerated from
+the raw results in `results/` by the scripts below; see
+[Replicating the paper](#replicating-the-paper).
 Archived on Zenodo: [10.5281/zenodo.24335608](https://doi.org/10.5281/zenodo.24335608) (all
 versions; v1.2, used in the paper, is [10.5281/zenodo.24368724](https://doi.org/10.5281/zenodo.24368724); v1.1 is [10.5281/zenodo.24341292](https://doi.org/10.5281/zenodo.24341292); v1.0 is [10.5281/zenodo.24335609](https://doi.org/10.5281/zenodo.24335609)). Citation
 metadata is in `CITATION.cff`.
@@ -156,6 +160,33 @@ empty-process runs of the same binary.
 
 Backends `highs-*` and `clp-*` accept a `-nopre` suffix (presolve off), e.g. `highs-dual-nopre`.
 OR-Tools backends are dispatched to `bin/lpsolve-ort`, Gurobi backends to `bin/lpsolve-grb`, automatically.
+
+## Replicating the paper
+
+For the RCR review. The paper uses release v1.2
+(`git checkout v1.2`); later commits change documentation only.
+
+1. `scripts/build_deps.sh ~/lpdeps/install ~/lpdeps/src`,
+   `scripts/fetch_flow_codes.sh`, then `make`. Gurobi is optional;
+   without it, every result except the Gurobi records reproduces.
+2. Run the commands in [Running](#running). Solver time is about
+   3.5 h per seed (0.5 h of it Gurobi) and about 2 h for the roads.
+3. Compare with the stored files, or regenerate the paper's
+   tables and figures from the stored raw results directly:
+
+| paper | file | produced by |
+|---|---|---|
+| Figures 1–3 | `results/pin-s1/{sp,mf,mcf}.png` | `analyze.py` |
+| Table 3 (bytes/arc) | `bpa.tex` | `paper_tables.py` |
+| ranges over seeds | `results/seed_stats.txt` | `seed_stats.py` |
+| Figure 4 (roads) | `results/roads/roads.png` | `plot_roads.py` |
+| hop depth | `results/depth/` | `depth_experiment.sh` |
+| Figure 5 (Kaczmarz) | `results/kaczmarz_convergence.png` | `plot_traces.py` |
+| Figure 6 (bisection) | `results/exploratory/` | `exploratory/plot_bisect.py` |
+
+Memory should reproduce within a few percent on any Linux machine;
+absolute times depend on the hardware, but ratios between methods
+should hold on a similar CPU.
 
 ## Results (in `results/`)
 
