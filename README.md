@@ -164,7 +164,8 @@ OR-Tools backends are dispatched to `bin/lpsolve-ort`, Gurobi backends to `bin/l
 ## Replicating the paper
 
 For the RCR review. The paper uses release v1.2
-(`git checkout v1.2`); later commits change documentation only.
+(`git checkout v1.2`). Later commits add the timer checks below
+and documentation; the benchmark code is unchanged.
 
 1. `scripts/build_deps.sh ~/lpdeps/install ~/lpdeps/src`,
    `scripts/fetch_flow_codes.sh`, then `make`. Gurobi is optional;
@@ -187,6 +188,31 @@ For the RCR review. The paper uses release v1.2
 Memory should reproduce within a few percent on any Linux machine;
 absolute times depend on the hardware, but ratios between methods
 should hold on a similar CPU.
+
+### Timer validation
+
+`make timer-test` runs two checks; neither needs Gurobi or runs a
+solver.
+
+* `bin/timer-test` (`src/timer_test.cpp`) checks the timer the
+  solvers use (`std::chrono::steady_clock`, the same `secs()` as
+  `lpsolve.cpp` and `classic.cpp`): resolution, monotonicity over
+  10^7 reads, and agreement with `CLOCK_MONOTONIC_RAW` over 1 ms to
+  5 s (tolerance 10 µs + 100 ppm).
+* `scripts/check_timers.py` cross-checks the stored results: each
+  record's `t_solve` ≤ `t_total`, measured inside the solver, must
+  not exceed `wall`, measured independently by `memwrap.py` in the
+  parent process.
+
+On the stored results of the paper (three seeds and the roads),
+no record fails. For LP solvers `t_total` includes reading the
+instance, and `wall` exceeds it by at most 1.9% on runs of 1 s or
+more (median 0.05%): process start-up, exit and the 5 ms polling
+of `memwrap.py`. The classical codes start their clock after
+reading the instance, so for them `wall` also includes the read,
+about 10 s on the full USA graph. On a second Linux machine
+(2026-11-24) the timer self-test passed with 10 ns resolution and
+`steady_clock` within 15 ppm of the raw clock.
 
 ## Results (in `results/`)
 

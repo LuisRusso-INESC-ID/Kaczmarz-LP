@@ -54,6 +54,12 @@ bin/flow-pseudoflow: src/flowref/pseudo_driver.c
 bin/flow-bk: src/flowref/bk_driver.cpp src/flowref/bk_maxflow.cpp
 	$(CXX) -O3 -std=c++17 -DNDEBUG -w -I$(FLOW)/maxflow-v3.04.src -o $@ $^
 
+bin/timer-test: src/timer_test.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
+timer-test: bin/timer-test
+	./bin/timer-test
+	python3 scripts/check_timers.py
+
 clean:
 	rm -f bin/*
-.PHONY: all clean
+.PHONY: all clean timer-test
